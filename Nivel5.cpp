@@ -25,7 +25,7 @@ Nivel5::Nivel5() {
 		int randomColumn = rand() % columnCount;
 		float x = randomColumn * (blockWidth + 6.f) + 5.f;
 		float y = randomRow * (blockHeight + 6.f) + 5.f;
-		m_blocks.emplace_back(x, y, blockWidth, blockHeight, Color::Green);
+		m_blocks.emplace_back(x, y, blockWidth, blockHeight, Color::Black);
 	}
 }
 
@@ -77,7 +77,7 @@ void Nivel5::Update(Game &g){
 
 
 void Nivel5::Draw(RenderWindow &w){
-	w.clear({0,0,0});
+	w.clear({20,20,20});
 	m_ball.Draw(w);
 	m_player.Draw(w);
 	

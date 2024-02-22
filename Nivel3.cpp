@@ -25,7 +25,7 @@ Nivel3::Nivel3() {
 			if (distance % 2 == 0) {
 				float x = j * (blockWidth + 6.f) + 50.f;
 				float y = i * (blockHeight + 6.f) + 5.f;
-				m_blocks.emplace_back(x, y, blockWidth, blockHeight, Color::Yellow);
+				m_blocks.emplace_back(x, y, blockWidth, blockHeight, Color::Black);
 			}
 		}
 	}
@@ -83,7 +83,7 @@ void Nivel3::Update(Game &g){
 }
 
 void Nivel3::Draw(RenderWindow &w){
-	w.clear({0,0,0});
+	w.clear({20,20,20});
 	m_ball.Draw(w);
 	m_player.Draw(w);
 	

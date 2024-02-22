@@ -5,22 +5,36 @@
 #include "Nivel2.h"
 #include "GameOver.h"
 #include <cmath>
+#include "Nivel3.h"
 using namespace std;
 
 Nivel1::Nivel1() {
 	m_ball.setBallMoving(false);
 	m_stats.ResetStats();
+	
+	
+	
 	for (int i = 0; i < rowCount; ++i) {
 		for (int j = 0; j < columnCount - i; ++j) { /// Ajuste en el límite de columnas
 			float x = (j + 0.5f * i) * (blockWidth + 6.f) + 5.f;
 			float y = i * (blockHeight + 6.f) + 5.f;
 			
-			bool isSpecial = (rand () % 30 == 0); /// Probabilidad de 1 / 30 de ser especial el bloque
+			bool isSpecial = (rand () % 30 == 0); /// Probabilidad de 1 / 30 de ser especial el bloque nivel (Saltea 1)
+			bool isSpecial_puntos = (rand()% 20 == 0); /// Probabilidad de 1 / 20 de ser especial  el bloque puntos
+			bool isSpecial_nivel_d = (rand () % 40 == 0); /// Probabilidad 1 / 40 de ser especial el bloque Nivel (saltea 2)
 			
 			if(isSpecial){
 				m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color(255,0,128),false,true);
 			}else{
-				m_blocks.emplace_back(x, y, blockWidth, blockHeight, Color::Red);
+				if(isSpecial_puntos){
+					m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color::Yellow,true,false);
+				}else{
+					if(isSpecial_nivel_d){
+						m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color(255,165,0),false,false,true);
+					}else{
+						m_blocks.emplace_back(x, y, blockWidth, blockHeight, Color::Black);
+					}
+				}
 			}
 		}
 	}
@@ -48,16 +62,33 @@ void Nivel1::Update(Game &g){
 	
 	for (auto it = m_blocks.begin(); it != m_blocks.end(); ){
 		if (m_ball.Colisiona(*it)) {
-				if (it->isSpecialNivel()) {		/// Si colisiona con bloque especial pasa esto.. {
-					g.SetScene(new Nivel2());
-					m_stats.aumentarpuntaje(100);
-					break;
-				} 	
-				else { 							/// Si no es especial el bloque pasa esto..
-					m_stats.aumentarpuntaje(25);
-				}
-				m_ball.Rebotar();
-				it = m_blocks.erase(it); /// Avanza el iterador después de eliminar el bloque
+			if (it->isSpecialNivel()) {         /// Bloque especial de Nivel
+				g.SetScene(new Nivel2());
+				m_stats.aumentarpuntaje(100);
+				it = m_blocks.erase(it); /// Eliminar bloque especial
+				continue; /// Continuar con el siguiente bloque
+			}
+			
+			/// Bloque especial de puntos
+			if(it->isSpecialBlock()){
+				m_stats.aumentarpuntaje(75);
+				m_stats.IncrementarVidas();
+				it = m_blocks.erase(it); /// Eliminar bloque especial
+				continue; /// Continuar con el siguiente bloque
+			} 
+			
+			/// Bloque especial Nivel (Saltea 2)
+			if(it->isSpecialNivel_dos()){
+				m_stats.aumentarpuntaje(200);
+				g.SetScene(new Nivel3());
+				it = m_blocks.erase(it); /// Eliminar bloque especial
+				continue; /// Continuar con el siguiente bloque
+			}   
+			
+			/// Si no es especial el bloque pasa esto..
+			m_stats.aumentarpuntaje(25);
+			m_ball.Rebotar();
+			it = m_blocks.erase(it); /// Avanza el iterador después de eliminar el bloque no especial
 		} else {
 			++it; /// Avanza al siguiente bloque si no hay colisión
 		}
@@ -85,7 +116,7 @@ void Nivel1::Update(Game &g){
 }
 
 void Nivel1::Draw(RenderWindow &w){
-	w.clear({0,0,0});
+	w.clear({20,20,20});
 	m_ball.Draw(w);
 	m_player.Draw(w);
 	m_stats.DrawStats(w);

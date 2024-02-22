@@ -18,7 +18,7 @@ Nivel4::Nivel4() {
 			if ((i + j) % 2 == 0) { // Se añaden bloques en posiciones donde la suma de índices es par
 				float x = j * (blockWidth + 6.f) + 5.f;
 				float y = i * (blockHeight + 6.f) + 5.f;
-				m_blocks.emplace_back(x, y, blockWidth, blockHeight, Color::Blue);
+				m_blocks.emplace_back(x, y, blockWidth, blockHeight, Color::Black);
 			}
 		}
 	}
@@ -72,7 +72,7 @@ void Nivel4::Update(Game &g){
 
 
 void Nivel4::Draw(RenderWindow &w){
-	w.clear({0,0,0});
+	w.clear({20,20,20});
 	m_ball.Draw(w);
 	m_player.Draw(w);
 	

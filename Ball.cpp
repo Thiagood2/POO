@@ -36,7 +36,6 @@ void Ball::Update(){
 		m_speed.x = 0;
 	}
 	
-	cout<<p.x<<"  "<<p.y<<endl;
 }
 
 void Ball::Rebotar(const FloatRect& playerBounds){ /// Este rebotar se utiliza para paleta-pelota

@@ -25,6 +25,7 @@ public:
 	void IncrementarVidas ();
 	void CargarStats(int vidas, int puntaje, int nivel);
 	void GuardarScore(int puntos);
+	void DobleNivel();
 	
 private:
 	

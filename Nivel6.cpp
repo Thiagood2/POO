@@ -21,7 +21,7 @@ Nivel6::Nivel6() {
 			} else {
 				float x = j * (blockWidth + 6.f) + 5.f;
 				float y = i * (blockHeight + 6.f) + 5.f;
-				m_blocks.emplace_back(x, y, blockWidth, blockHeight, Color::Magenta);
+				m_blocks.emplace_back(x, y, blockWidth, blockHeight, Color::Black);
 			}
 		}
 	}
@@ -74,7 +74,7 @@ void Nivel6::Update(Game &g){
 
 
 void Nivel6::Draw(RenderWindow &w){
-	w.clear({0,0,0});
+	w.clear({20,20,20});
 	m_ball.Draw(w);
 	m_player.Draw(w);
 	

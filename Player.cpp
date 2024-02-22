@@ -6,7 +6,7 @@ using namespace std;
 Player::Player(){
 	m_player.setSize(Vector2f(100,20));
 	m_player.setFillColor({128,128,128});
-	m_player.setOutlineThickness(1.0f);
+	m_player.setOutlineThickness(2.0f);
 	m_player.setOutlineColor({255,255,255});
 	m_player.setPosition(400,570);
 	

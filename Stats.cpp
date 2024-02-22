@@ -117,4 +117,9 @@ void Stats::CargarStats(int vidas, int puntaje, int nivel){
 	m_nivel = nivel;
 }
 
+void Stats::DobleNivel(){
+	m_nivel+=2;
+}
+
+
 Stats m_stats;
