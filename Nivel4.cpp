@@ -15,7 +15,7 @@ Nivel4::Nivel4() {
 	///Tablero de ajedrez
 	for (int i = 0; i < rowCount; ++i) {
 		for (int j = 0; j < columnCount; ++j) {
-			if ((i + j) % 2 == 0) { // Se añaden bloques en posiciones donde la suma de índices es par
+			if ((i + j) % 2 == 0) { /// Se añaden bloques en posiciones donde la suma de índices es par
 				float x = j * (blockWidth + 6.f) + 5.f;
 				float y = i * (blockHeight + 6.f) + 5.f;
 				m_blocks.emplace_back(x, y, blockWidth, blockHeight, Color::Black);

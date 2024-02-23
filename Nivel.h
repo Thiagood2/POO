@@ -21,6 +21,11 @@ protected:
 	const float blockWidth = 74.f;  /// Ancho de bloque
 	const float blockHeight = 20.f;  /// Alto de bloque
 	
+	int contador_bloques_normales = 0;
+	int contador_bloques_special = 0;
+	
+	int bloques_totales = 0;
+	
 	Ball m_ball; Player m_player;
 	
 	vector<Blocks>m_blocks;

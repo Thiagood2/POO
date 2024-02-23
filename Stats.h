@@ -11,6 +11,7 @@ class Stats {
 public:
 	Stats();
 	void aumentarpuntaje(int puntos);
+	void restarpuntaje(int puntos);
 	int obtenerpuntaje();
 	int MostrarPuntajeTotal();
 	void actualizarStats();

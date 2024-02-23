@@ -38,6 +38,10 @@ void Stats::aumentarpuntaje(int puntos){
 	PuntajeTotal+=puntos;
 }
 
+void Stats::restarpuntaje(int puntos){
+	PuntajeTotal-=puntos;
+}
+
 int Stats::obtenerpuntaje(){
 	return PuntajeTotal;
 }

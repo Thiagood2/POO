@@ -6,6 +6,7 @@
 #include "GameOver.h"
 #include "Nivel1.h"
 #include "Nivel4.h"
+using namespace std;
 
 Nivel3::Nivel3() {
 	
@@ -25,10 +26,19 @@ Nivel3::Nivel3() {
 			if (distance % 2 == 0) {
 				float x = j * (blockWidth + 6.f) + 50.f;
 				float y = i * (blockHeight + 6.f) + 5.f;
-				m_blocks.emplace_back(x, y, blockWidth, blockHeight, Color::Black);
+				bool isSpecial_menospts = (rand () % 20 == 0); /// Probabilidad 1 / 40 de ser especial el bloque puntos (resta 100)
+				if(isSpecial_menospts){
+					m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color::Blue,false,false,false,true);
+					contador_bloques_special++;
+				}else{
+					m_blocks.emplace_back(x, y, blockWidth, blockHeight, Color::Black);
+				}
+				
 			}
 		}
 	}
+	
+	bloques_totales = m_blocks.size();
 	
 }
 
@@ -53,14 +63,26 @@ void Nivel3::Update(Game &g){
 		m_ball.Rebotar(m_player.DimensionesPlayer());
 	}
 	
-	for(auto it = m_blocks.begin();it!=m_blocks.end();it++){
-		if(m_ball.Colisiona(*it)){
+	for (auto it = m_blocks.begin(); it != m_blocks.end(); ){
+		if (m_ball.Colisiona(*it)) {
+			/// Bloque especial de puntos (resta 100)
+			if(it->isSpecialPts()){
+				m_stats.restarpuntaje(100);
+				m_ball.Rebotar();
+				it = m_blocks.erase(it); /// Eliminar bloque especial
+				continue; /// Continuar con el siguiente bloque
+			} 
+			
+			/// Si no es especial el bloque pasa esto..
+			contador_bloques_normales++;
 			m_stats.aumentarpuntaje(25);
-			m_blocks.erase(it);
 			m_ball.Rebotar();
-			break;
+			it = m_blocks.erase(it); /// Avanza el iterador después de eliminar el bloque no especial
+		} else {
+			++it; /// Avanza al siguiente bloque si no hay colisión
 		}
 	}
+	
 	
 	if(m_ball.falling()){
 		m_stats.decrementar_vidas(1);
@@ -71,7 +93,7 @@ void Nivel3::Update(Game &g){
 		g.SetScene(new GameOver());
 	}
 	
-	if(m_blocks.empty()){
+	if(m_blocks.empty() or contador_bloques_normales == (bloques_totales - contador_bloques_special)) {
 		g.SetScene(new Nivel4());
 		
 	}
