@@ -63,7 +63,7 @@ void Nivel7::Update (Game & g) {
 	}
 	
 	if(m_ball.falling()){
-		m_stats.decrementar_vidas(1);
+		m_stats.DecrementarVida();
 	}
 	
 	if(m_stats.VerVidas() == 0){

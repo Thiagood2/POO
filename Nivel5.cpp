@@ -17,8 +17,8 @@ Nivel5::Nivel5() {
 		float x = (rand() % columnCount) * (blockWidth + 6.f) + 5.f;
 		float y = (rand() % rowCount) * (blockHeight + 6.f) + 5.f;
 		
-		bool isSpecial_puntos = (rand()% 20 == 0); /// Probabilidad de 1 / 20 de ser especial  el bloque puntos
-		bool isSpecial_menospts = (rand () % 10 == 0); /// Probabilidad 1 / 10 de ser especial el bloque puntos (resta 100)
+		bool isSpecial_puntos = (rand()% 50 == 0); /// Probabilidad de 1 / 50 de ser especial  el bloque puntos
+		bool isSpecial_menospts = (rand () % 40 == 0); /// Probabilidad 1 / 40 de ser especial el bloque puntos (resta 100 y 1 vida)
 		
 		
 		if(isSpecial_puntos){
@@ -63,10 +63,11 @@ void Nivel5::Update(Game &g){
 				continue; /// Continuar con el siguiente bloque
 			} 
 			
-			/// Bloque especial de puntos (resta 100)
+			/// Bloque especial de puntos (resta 100 y 1 vida)
 			if(it->isSpecialPts()){
 				m_stats.restarpuntaje(100);
 				m_ball.Rebotar();
+				m_stats.DecrementarVida();
 				it = m_blocks.erase(it); /// Eliminar bloque especial
 				continue; /// Continuar con el siguiente bloque
 			} 
@@ -87,7 +88,7 @@ void Nivel5::Update(Game &g){
 	
 	if(m_ball.falling()){ /// Si la pelota sobresale de la pantalla Decrementa una vida
 		
-		m_stats.decrementar_vidas(1);
+		m_stats.DecrementarVida();
 	}
 	
 	if(m_stats.VerVidas() == 0){ /// Si se llega a las vidas == 0, entonces se cambia a Game Over

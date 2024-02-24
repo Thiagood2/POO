@@ -43,7 +43,7 @@ Guia::Guia():m_bl_amarillo(100,100,100.f,20.f,Color::Yellow)
 	m_text_amarillo.setString("Suma 70 puntos y 1 vida"); /// Establecemos un text a cada variable
 	m_text_rosa.setString("Suma 100 puntos y 1 nivel");
 	m_text_naranja.setString("Suma 200 puntos y 2 niveles");
-	m_text_azul.setString("Resta 100 puntos");
+	m_text_azul.setString("Resta 100 puntos y 1 vida");
 	m_volver_menu.setString("<volver al menu>");
 }
 

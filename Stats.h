@@ -20,13 +20,12 @@ public:
 	int ObtenerNivel();
 	void CambiarColores();
 	void ResetStats();
-	void decrementar_vidas(int m_v);
+	void DecrementarVida();
 	bool draw_text(bool dr);
 	int VerVidas();
 	void IncrementarVidas ();
 	void CargarStats(int vidas, int puntaje, int nivel);
 	void GuardarScore(int puntos);
-	void DobleNivel();
 	
 private:
 	

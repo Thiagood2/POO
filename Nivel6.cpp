@@ -17,26 +17,13 @@ Nivel6::Nivel6() {
 			float x = j * (blockWidth + 6.f) + 5.f;
 			float y = i * (blockHeight + 6.f) + 5.f;
 			
-			bool isSpecial = (rand () % 15 == 0); /// Probabilidad de 1 / 15 de ser especial el bloque nivel (Saltea 1)
-			bool isSpecial_puntos = (rand()% 20 == 0); /// Probabilidad de 1 / 20 de ser especial  el bloque puntos
-			bool isSpecial_menospts = (rand () % 10 == 0); /// Probabilidad 1 / 10 de ser especial el bloque puntos (resta 100)
+			bool isSpecial_menospts = (rand () % 30 == 0); /// Probabilidad 1 / 30 de ser especial el bloque puntos (resta 100 y 1 vida)
 			
-			if(isSpecial){
-				m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color(255,0,128),false,true);
-				contador_bloques_special++;
+			if(isSpecial_menospts){
+				m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color::Blue,false,false,false,true);
 			}else{
-				if(isSpecial_puntos){
-					m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color::Yellow,true,false);
-					contador_bloques_special++;
-				}else{
-					if(isSpecial_menospts){
-						m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color::Blue,false,false,false,true);
-						contador_bloques_special++;
-					}else{
-						m_blocks.emplace_back(x, y, blockWidth, blockHeight, Color::Black);
-					}
-				}
-			} 
+				m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color::Black);
+			}
 		}
 	}
 	
@@ -63,27 +50,12 @@ void Nivel6::Update(Game &g){
 	
 	for (auto it = m_blocks.begin(); it != m_blocks.end(); ){
 		if (m_ball.Colisiona(*it)) {
-			if (it->isSpecialNivel()) {         /// Bloque especial de Nivel (Saltea 1)
-				g.SetScene(new Nivel7());
-				m_stats.aumentarpuntaje(100);
-				m_ball.Rebotar();
-				it = m_blocks.erase(it); /// Eliminar bloque especial
-				continue; /// Continuar con el siguiente bloque
-			}
 			
-			/// Bloque especial de puntos
-			if(it->isSpecialBlock()){
-				m_stats.aumentarpuntaje(75);
-				m_stats.IncrementarVidas();
-				m_ball.Rebotar();
-				it = m_blocks.erase(it); /// Eliminar bloque especial
-				continue; /// Continuar con el siguiente bloque
-			} 
-			
-			/// Bloque especial de puntos (resta 100)
+			/// Bloque especial de puntos (resta 100 y 1 vida)
 			if(it->isSpecialPts()){
 				m_stats.restarpuntaje(100);
 				m_ball.Rebotar();
+				m_stats.DecrementarVida();
 				it = m_blocks.erase(it); /// Eliminar bloque especial
 				continue; /// Continuar con el siguiente bloque
 			} 
@@ -104,7 +76,7 @@ void Nivel6::Update(Game &g){
 	}
 	
 	if(m_ball.falling()){
-		m_stats.decrementar_vidas(1);
+		m_stats.DecrementarVida();
 	}
 	
 	if(m_stats.VerVidas() == 0){

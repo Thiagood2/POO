@@ -92,8 +92,8 @@ bool Stats::draw_text(bool dr){
 	is_draw = dr;
 }
 
-void Stats::decrementar_vidas(int m_v){
-	m_vidas -= m_v;
+void Stats::DecrementarVida(){
+	m_vidas--;
 }
 
 int Stats::VerVidas(){
@@ -121,9 +121,6 @@ void Stats::CargarStats(int vidas, int puntaje, int nivel){
 	m_nivel = nivel;
 }
 
-void Stats::DobleNivel(){
-	m_nivel+=2;
-}
 
 
 Stats m_stats;
