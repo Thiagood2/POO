@@ -4,29 +4,36 @@
 #include "GameOver.h"
 #include "Nivel6.h"
 Nivel5::Nivel5() {
-	m_ball.IncrementarVelocidad(10.f);
+	m_ball.IncrementarVelocidad(5.f);
 	m_ball.setBallMoving(false);
 	
 	m_stats.IncrementarNivel();
 	
 	
-	// Se define una densidad objetivo de bloques
-	float targetDensity = 0.5f;
+	/// Bloques aleatorios
+	srand(time(nullptr));   /// Establece la semilla para la generación de números aleatorios
 	
-	// Se calcula la cantidad total de bloques a colocar
-	int totalBlocks = rowCount * columnCount;
-	
-	// Se calcula la cantidad de bloques que se colocarán según la densidad objetivo
-	int numBlocksToPlace = static_cast<int>(targetDensity * totalBlocks);
-	
-	// Se generan posiciones aleatorias para colocar los bloques
-	for (int k = 0; k < numBlocksToPlace; ++k) {
-		int randomRow = rand() % rowCount;
-		int randomColumn = rand() % columnCount;
-		float x = randomColumn * (blockWidth + 6.f) + 5.f;
-		float y = randomRow * (blockHeight + 6.f) + 5.f;
-		m_blocks.emplace_back(x, y, blockWidth, blockHeight, Color::Black);
+	for (int i = 0; i < 70; ++i) {   /// Genera bloques en posiciones aleatorias
+		float x = (rand() % columnCount) * (blockWidth + 6.f) + 5.f;
+		float y = (rand() % rowCount) * (blockHeight + 6.f) + 5.f;
+		
+		bool isSpecial_puntos = (rand()% 20 == 0); /// Probabilidad de 1 / 20 de ser especial  el bloque puntos
+		bool isSpecial_menospts = (rand () % 10 == 0); /// Probabilidad 1 / 10 de ser especial el bloque puntos (resta 100)
+		
+		
+		if(isSpecial_puntos){
+			m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color::Yellow,true,false);
+			contador_bloques_special++;
+		}else{
+			if(isSpecial_menospts){
+				m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color::Blue,false,false,false,true);
+				contador_bloques_special++;
+			}else{
+				m_blocks.emplace_back(x, y, blockWidth, blockHeight, Color::Black);
+			}
+		}
 	}
+	bloques_totales = m_blocks.size();
 }
 
 void Nivel5::Update(Game &g){
@@ -46,16 +53,35 @@ void Nivel5::Update(Game &g){
 		m_ball.Rebotar(m_player.DimensionesPlayer());
 	}
 	
-	for(auto it = m_blocks.begin();it!=m_blocks.end();it++){ /// Como se manejan los puntos en el game
-		if(m_ball.Colisiona(*it)){
+	for (auto it = m_blocks.begin(); it != m_blocks.end(); ){
+		if (m_ball.Colisiona(*it)) {
+			if(it->isSpecialBlock()){     /// Bloque especial de puntos
+				m_stats.aumentarpuntaje(75);
+				m_stats.IncrementarVidas();
+				m_ball.Rebotar();
+				it = m_blocks.erase(it); /// Eliminar bloque especial
+				continue; /// Continuar con el siguiente bloque
+			} 
+			
+			/// Bloque especial de puntos (resta 100)
+			if(it->isSpecialPts()){
+				m_stats.restarpuntaje(100);
+				m_ball.Rebotar();
+				it = m_blocks.erase(it); /// Eliminar bloque especial
+				continue; /// Continuar con el siguiente bloque
+			} 
+			
+			/// Si no es especial el bloque pasa esto..
+			contador_bloques_normales++;
 			m_stats.aumentarpuntaje(25);
-			m_blocks.erase(it);
 			m_ball.Rebotar();
-			break;
+			it = m_blocks.erase(it); /// Avanza el iterador después de eliminar el bloque no especial
+		} else {
+			++it; /// Avanza al siguiente bloque si no hay colisión
 		}
 	}
 	
-	if(m_blocks.empty()){	/// Si los bloques se vacian Cambia al Nivel 6
+	if(m_blocks.empty() or contador_bloques_normales ==  (bloques_totales - contador_bloques_special)){ /// EL nivel termina cuando no hay bloques, o cuando se rompen todos los bloques normales
 		g.SetScene(new Nivel6());
 	}
 	

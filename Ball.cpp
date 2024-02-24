@@ -11,7 +11,7 @@ Ball::Ball(){
 	m_ball.setOutlineColor(Color::White);
 	m_ball.setPosition(400,300);
 	
-	velocity = 4.5f;
+	velocity = 7.f;
 	m_speed.y = velocity; is_falling = 0;
 	m_speed.x = 0;
 	

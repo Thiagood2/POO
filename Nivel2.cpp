@@ -14,32 +14,43 @@ Nivel2::Nivel2() {
 	m_stats.IncrementarNivel();
 	
 	
-	///Escalera
+	/// Escalera
 	for (int i = 0; i < rowCount; ++i) {
-		for (int j = 0; j <= i; ++j) {
+		for (int j = 0; j <= i; ++j) {   /// El número de bloques en cada fila aumenta gradualmente a medida que avanzamos hacia abajo en la escalera
 			float x = j * (blockWidth + 6.f) + 5.f;
 			float y = i * (blockHeight + 6.f) + 5.f;
-				
-				
-			bool isSpecial = (rand () % 100 == 0); /// Probabilidad de 1 / 100 de ser especial el bloque nivel (Saltea 1)
-			bool isSpecial_puntos = (rand()% 40 == 0); /// Probabilidad de 1 / 20 de ser especial  el bloque puntos
-			bool isSpecial_nivel_d = (rand () % 110 == 0); /// Probabilidad 1 / 110 de ser especial el bloque Nivel (saltea 2)
+			
+			
+			bool isSpecial = (rand () % 15 == 0); /// Probabilidad de 1 / 15 de ser especial el bloque nivel (Saltea 1)
+			bool isSpecial_puntos = (rand()% 20 == 0); /// Probabilidad de 1 / 20 de ser especial  el bloque puntos
+			bool isSpecial_nivel_d = (rand () % 40 == 0); /// Probabilidad 1 / 40 de ser especial el bloque Nivel (saltea 2)
+			bool isSpecial_menospts = (rand () % 10 == 0); /// Probabilidad 1 / 10 de ser especial el bloque puntos (resta 100)
 			
 			if(isSpecial){
 				m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color(255,0,128),false,true);
+				contador_bloques_special++;
 			}else{
 				if(isSpecial_puntos){
 					m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color::Yellow,true,false);
+					contador_bloques_special++;
 				}else{
 					if(isSpecial_nivel_d){
 						m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color(255,165,0),false,false,true);
+						contador_bloques_special++;
 					}else{
-						m_blocks.emplace_back(x, y, blockWidth, blockHeight, Color::Black);
+						if(isSpecial_menospts){
+							m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color::Blue,false,false,false,true);
+							contador_bloques_special++;
+						}else{
+							m_blocks.emplace_back(x, y, blockWidth, blockHeight, Color::Black);
+						}
 					}
 				}
 			}
 		}
 	}
+	
+	bloques_totales = m_blocks.size();
 	
 }
 
@@ -90,9 +101,18 @@ void Nivel2::Update(Game &g){
 				m_ball.Rebotar();
 				it = m_blocks.erase(it); /// Eliminar bloque especial
 				continue; /// Continuar con el siguiente bloque
-			}   
+			} 
+			
+			/// Bloque especial de puntos (resta 100)
+			if(it->isSpecialPts()){
+				m_stats.restarpuntaje(100);
+				m_ball.Rebotar();
+				it = m_blocks.erase(it); /// Eliminar bloque especial
+				continue; /// Continuar con el siguiente bloque
+			} 
 			
 			/// Si no es especial el bloque pasa esto..
+			contador_bloques_normales++;
 			m_stats.aumentarpuntaje(25);
 			m_ball.Rebotar();
 			it = m_blocks.erase(it); /// Avanza el iterador después de eliminar el bloque no especial
@@ -101,9 +121,8 @@ void Nivel2::Update(Game &g){
 		}
 	}
 	
-	if(m_blocks.empty()){
+	if(m_blocks.empty() or contador_bloques_normales ==  (bloques_totales - contador_bloques_special)){ /// EL nivel termina cuando no hay bloques, o cuando se rompen todos los bloques normales
 		g.SetScene(new Nivel3());
-		
 	}
 	
 	if(m_ball.falling()){

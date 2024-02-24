@@ -5,13 +5,13 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 Nivel7::Nivel7() {
-	m_ball.IncrementarVelocidad(13.f);
+	m_ball.IncrementarVelocidad(7.f);
 	m_ball.setBallMoving(false);
 	
 	m_stats.IncrementarNivel();
 	
 	
-	Color colors[] = {Color::Red, Color::Green, Color::Blue, Color::Yellow, Color::Magenta, Color::Cyan}; /// Vector de colores
+	Color colors[] = {Color::Red, Color::Green, Color(158,71,112), Color(172,153,105), Color::Magenta, Color::Cyan}; /// Vector de colores
 	
 	for (int i = 0; i < rowCount-2; ++i) { /// Ladrillos cambia colores
 		if (i%2!=0){
@@ -77,7 +77,7 @@ void Nivel7::Update (Game & g) {
 }
 
 void Nivel7::Draw (RenderWindow &w) {
-	w.clear({0,0,0});
+	w.clear({20,20,20});
 	m_ball.Draw(w);
 	m_player.Draw(w);
 	

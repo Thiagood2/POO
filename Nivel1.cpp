@@ -12,36 +12,26 @@ Nivel1::Nivel1() {
 	m_stats.ResetStats();
 	
 	
-	
+	/// Piramide invertida
 	for (int i = 0; i < rowCount; ++i) {
-		for (int j = 0; j < columnCount - i; ++j) { /// Ajuste en el límite de columnas
-			float x = (j + 0.5f * i) * (blockWidth + 6.f) + 5.f;
+		for (int j = 0; j < columnCount - i; ++j) {   /// Ajuste en el límite de columnas
+			float x = (j + 0.5f * i) * (blockWidth + 6.f) + 5.f;   /// Cada fila se desplaza un poco hacia la derecha
 			float y = i * (blockHeight + 6.f) + 5.f;
 			
-			bool isSpecial = (rand () % 100 == 0); /// Probabilidad de 1 / 100 de ser especial el bloque nivel (Saltea 1)
-			bool isSpecial_puntos = (rand()% 50 == 0); /// Probabilidad de 1 / 50 de ser especial  el bloque puntos
+			bool isSpecial = (rand () % 15 == 0); /// Probabilidad de 1 / 10 de ser especial el bloque nivel (Saltea 1)
+			bool isSpecial_puntos = (rand()% 40 == 0); /// Probabilidad de 1 / 40 de ser especial  el bloque puntos
 			bool isSpecial_nivel_d = (rand () % 110 == 0); /// Probabilidad 1 / 110 de ser especial el bloque Nivel (saltea 2)
-			bool isSpecial_menospts = (rand () % 40 == 0); /// Probabilidad 1 / 40 de ser especial el bloque puntos (resta 100)
 			
 			if(isSpecial){
 				m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color(255,0,128),false,true);
-				contador_bloques_special++;
 			}else{
 				if(isSpecial_puntos){
 					m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color::Yellow,true,false);
-					contador_bloques_special++;
 				}else{
 					if(isSpecial_nivel_d){
 						m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color(255,165,0),false,false,true);
-						contador_bloques_special++;
 					}else{
-						if(isSpecial_menospts){
-							m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color::Blue,false,false,false,true);
-							contador_bloques_special++;
-						}else{
-							m_blocks.emplace_back(x, y, blockWidth, blockHeight, Color::Black);
-							
-						}
+						m_blocks.emplace_back(x, y, blockWidth, blockHeight, Color::Black);
 					}
 				}
 			}
@@ -95,22 +85,12 @@ void Nivel1::Update(Game &g){
 			if(it->isSpecialNivel_dos()){
 				m_stats.aumentarpuntaje(200);
 				g.SetScene(new Nivel3());
-				m_stats.IncrementarNivel();
 				m_ball.Rebotar();
 				it = m_blocks.erase(it); /// Eliminar bloque especial
 				continue; /// Continuar con el siguiente bloque
 			}   
 			
-			/// Bloque especial de puntos (resta 100)
-			if(it->isSpecialPts()){
-				m_stats.restarpuntaje(100);
-				m_ball.Rebotar();
-				it = m_blocks.erase(it); /// Eliminar bloque especial
-				continue; /// Continuar con el siguiente bloque
-			} 
-			
 			/// Si no es especial el bloque pasa esto..
-			contador_bloques_normales++;
 			m_stats.aumentarpuntaje(25);
 			m_ball.Rebotar();
 			it = m_blocks.erase(it); /// Avanza el iterador después de eliminar el bloque no especial

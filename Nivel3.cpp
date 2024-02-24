@@ -10,23 +10,23 @@ using namespace std;
 
 Nivel3::Nivel3() {
 	
-	m_ball.IncrementarVelocidad(4.f); 
+	m_ball.IncrementarVelocidad(3.f); 
 	m_ball.setBallMoving(false);
 	
 	m_stats.IncrementarNivel();	
 	
 	///Cuadros concentricos
-	int centerX = columnCount / 2.5;
-	int centerY = rowCount / 2;
+	int centerX = columnCount / 2.5;   /// Se calcula la coordenada x del centro de la matriz de bloques
+	int centerY = rowCount / 2;   /// Se calcula la coordenada y del centro de la matriz de bloques
 	int maxDistance = std::max(centerX, centerY);
 	
 	for (int i = 0; i < rowCount; ++i) {
 		for (int j = 0; j < columnCount; ++j) {
-			int distance = std::max(abs(centerX - j), abs(centerY - i));
+			int distance = std::max(abs(centerX - j), abs(centerY - i));    /// Se calcula la distancia de la posición actual al centro 
 			if (distance % 2 == 0) {
 				float x = j * (blockWidth + 6.f) + 50.f;
 				float y = i * (blockHeight + 6.f) + 5.f;
-				bool isSpecial_menospts = (rand () % 20 == 0); /// Probabilidad 1 / 40 de ser especial el bloque puntos (resta 100)
+				bool isSpecial_menospts = (rand () % 10 == 0); /// Probabilidad 1 / 10 de ser especial el bloque puntos (resta 100)
 				if(isSpecial_menospts){
 					m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color::Blue,false,false,false,true);
 					contador_bloques_special++;
@@ -84,6 +84,10 @@ void Nivel3::Update(Game &g){
 	}
 	
 	
+	if(m_blocks.empty() or contador_bloques_normales == (bloques_totales - contador_bloques_special)) {
+		g.SetScene(new Nivel4());
+	}
+	
 	if(m_ball.falling()){
 		m_stats.decrementar_vidas(1);
 	}
@@ -93,10 +97,6 @@ void Nivel3::Update(Game &g){
 		g.SetScene(new GameOver());
 	}
 	
-	if(m_blocks.empty() or contador_bloques_normales == (bloques_totales - contador_bloques_special)) {
-		g.SetScene(new Nivel4());
-		
-	}
 	
 	m_stats.actualizarStats();
 	m_ball.Update();
