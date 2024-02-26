@@ -5,11 +5,12 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "Game.h"
 #include "Blocks.h"
+#include <SFML/Window/Event.hpp>
 
 class Guia : public Scene {
 public:
 	Guia();
-	void Update (Game & g);
+	void Update (Game &g, Event &e);
 	void Draw (RenderWindow & window);
 private:
 	Font m_font;

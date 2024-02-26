@@ -3,12 +3,13 @@
 #include "Scene.h"
 #include <SFML/Graphics/Text.hpp>
 #include <vector>
+#include <SFML/Window/Event.hpp>
 using namespace std;
 
 class GameWon : public Scene {
 public:
 	GameWon();
-	void Update (Game & g);
+	void Update (Game &g, Event &e);
 	void Draw (RenderWindow & window);
 	void MoveUp ( );
 	void MoveDown ( );

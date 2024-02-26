@@ -32,7 +32,7 @@ Nivel7::Nivel7() {
 	}
 }
 
-void Nivel7::Update (Game & g) {
+void Nivel7::Update (Game &g, Event &e) {
 	if(Keyboard::isKeyPressed(Keyboard::Escape)){
 		g.SetScene(new Menu());
 		m_stats.ResetStats();

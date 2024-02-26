@@ -7,7 +7,7 @@ class Nivel2: public Nivel {
 public:
 	Nivel2();
 	void Draw(RenderWindow &w) override;
-	void Update(Game &g) override;
+	void Update(Game &g, Event &e) override;
 	int VerPuntaje();
 	int speed_ball();
 	int VerNivel();

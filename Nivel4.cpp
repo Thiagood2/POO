@@ -46,7 +46,7 @@ Nivel4::Nivel4() {
 	bloques_totales = m_blocks.size();
 }
 
-void Nivel4::Update(Game &g){
+void Nivel4::Update(Game &g, Event &e){
 	if(Keyboard::isKeyPressed(Keyboard::Escape)){
 		g.SetScene(new Menu());
 		m_stats.ResetStats();

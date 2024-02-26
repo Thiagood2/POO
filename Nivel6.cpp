@@ -9,7 +9,7 @@ Nivel6::Nivel6() {
 	m_ball.setBallMoving(false);
 	
 	m_stats.IncrementarNivel();
-	
+	m_player.CambiarDimensiones(40,20); /// Cambia las dimensiones de la paleta
 	
 	/// Cuadricula
 	for (int i = 0; i < rowCount; ++i) {
@@ -31,7 +31,7 @@ Nivel6::Nivel6() {
 	
 }
 
-void Nivel6::Update(Game &g){
+void Nivel6::Update(Game &g, Event &e){
 	if(Keyboard::isKeyPressed(Keyboard::Escape)){
 		g.SetScene(new Menu());
 		m_stats.ResetStats();

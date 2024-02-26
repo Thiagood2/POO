@@ -57,7 +57,7 @@ GameOver::GameOver() {
 }
 
 
-void GameOver::Update(Game &g){
+void GameOver::Update(Game &g,Event &e){
 	
 	
 	

@@ -16,7 +16,7 @@ bool comparing_score(PlayerScore &a, PlayerScore &b);
 class HighScores : public Scene{
 public:
 	HighScores();
-	void Update(Game &g)override;
+	void Update(Game &g, Event &e)override;
 	void Draw(RenderWindow &window)override;
 private:
 	vector<Text>draw_scores; Font m_font;

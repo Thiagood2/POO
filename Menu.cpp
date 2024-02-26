@@ -43,7 +43,7 @@ Menu::Menu() {
 	
 }
 
-void Menu::Update(Game &g){	
+void Menu::Update(Game &g, Event &e){	
 	
 	if((option[selectItem].getString()== option[0].getString()) and Keyboard::isKeyPressed(Keyboard::Return)){
 		g.SetScene(new Nivel1());

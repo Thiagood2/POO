@@ -51,7 +51,7 @@ GameWon::GameWon() {
 	selectitem = 0;
 }
 
-void GameWon::Update (Game & g) {
+void GameWon::Update (Game &g, Event &e) {
 	if((option[selectitem].getString()== option[0].getString()) and Keyboard::isKeyPressed(Keyboard::Space)){
 		g.SetScene(new Nivel1());
 	}

@@ -43,7 +43,7 @@ Nivel1::Nivel1() {
 }
 	
 
-void Nivel1::Update(Game &g){
+void Nivel1::Update(Game &g, Event &e){
 	
 	if(Keyboard::isKeyPressed(Keyboard::Escape)){
 		g.SetScene(new Menu());

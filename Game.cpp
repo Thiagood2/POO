@@ -13,9 +13,9 @@ void Game::Run (){
 	while(m_window.isOpen()) {
 		Event e;
 		while(m_window.pollEvent(e)) {
-			if(e.type == Event::Closed)
+			if(e.type == Event::Closed){
 				m_window.close();
-			
+			}
 			if(e.type == sf::Event::KeyPressed){
 				if(e.key.code == Keyboard::Up){
 					m_scene ->MoveUp();
@@ -27,7 +27,7 @@ void Game::Run (){
 				}
 			}
 		}
-		m_scene ->Update(*this);
+		m_scene ->Update(*this, e);
 		m_scene ->Draw(m_window);
 		m_window.display();
 		

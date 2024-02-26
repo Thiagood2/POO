@@ -10,13 +10,14 @@
 #include <vector>
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/Window/Event.hpp>
 
 using namespace std;
 
 class Menu : public Scene {
 public:
 	Menu();
-	void Update(Game &g) override;
+	void Update(Game &g, Event &e) override;
 	void Draw(RenderWindow &window) override;
 	void MoveUp() override;
 	void MoveDown()override;

@@ -47,7 +47,7 @@ Guia::Guia():m_bl_amarillo(100,100,100.f,20.f,Color::Yellow)
 	m_volver_menu.setString("<volver al menu>");
 }
 
-void Guia::Update (Game & g) {
+void Guia::Update (Game &g, Event &e) {
 	if(Keyboard::isKeyPressed(Keyboard::Space)){
 		g.SetScene(new Menu());
 	}

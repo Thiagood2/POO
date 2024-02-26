@@ -47,3 +47,8 @@ FloatRect Player::DimensionesPlayer(){
 	FloatRect DimensionPlayer (player_x, player_y, player_width, player_height); /// x_paleta, y_paleta , ancho_paleta, alto_paleta
 	return DimensionPlayer;
 }
+
+
+void Player::CambiarDimensiones(int x, int y){
+	m_player.setSize(Vector2f(x,y));
+}

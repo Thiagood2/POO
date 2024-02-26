@@ -11,6 +11,7 @@ public:
 	void Update();
 	void LimitesPlayer();
 	FloatRect DimensionesPlayer();
+	void CambiarDimensiones(int x, int y);
 private:
 };
 

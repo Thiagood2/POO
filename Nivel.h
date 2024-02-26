@@ -7,13 +7,14 @@
 #include "Stats.h"
 #include "Ball.h"
 #include "Player.h"
+#include <SFML/Window/Event.hpp>
 
 class Nivel : public Scene {
 public:
 	Nivel();
-	virtual void Update(Game &g) = 0;
+	virtual void Update(Game &g, sf::Event &e) = 0;
 	virtual void Draw(RenderWindow &window) = 0;
-	virtual ~Nivel (){};
+	virtual ~Nivel (){}; /// PREG A PROFE
 	
 protected:
 	const int rowCount = 10;  /// Filas
