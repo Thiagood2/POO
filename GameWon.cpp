@@ -44,14 +44,19 @@ GameWon::GameWon() {
 	archi.close();
 	
 	
+	
+	
 	Game_won.setString("GAME WON");
 	score_text.setString("SCORE: "+m_score);
 	
+	sonido_win.loadFromFile("win.wav");
+	s_win.setBuffer(sonido_win);
+	s_win.play();
 	
 	selectitem = 0;
 }
 
-void GameWon::Update (Game &g, Event &e) {
+void GameWon::Update (Game &g,  Event &e) {
 	if((option[selectitem].getString()== option[0].getString()) and Keyboard::isKeyPressed(Keyboard::Space)){
 		g.SetScene(new Nivel1());
 	}

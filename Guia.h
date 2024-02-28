@@ -10,7 +10,7 @@
 class Guia : public Scene {
 public:
 	Guia();
-	void Update (Game &g, Event &e);
+	void Update (Game &g,  Event &e);
 	void Draw (RenderWindow & window);
 private:
 	Font m_font;

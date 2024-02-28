@@ -48,7 +48,7 @@ Nivel5::Nivel5() {
 	bloques_totales = m_blocks.size();
 }
 
-void Nivel5::Update(Game &g, Event &e){
+void Nivel5::Update(Game &g,  Event &e){
 	if(Keyboard::isKeyPressed(Keyboard::Escape)){ /// Escape para volver al menu
 		g.SetScene(new Menu());
 		m_stats.ResetStats();
@@ -62,12 +62,14 @@ void Nivel5::Update(Game &g, Event &e){
 	
 	
 	if(m_ball.Colisiona(m_player)){ /// Colisiones de la pelota con la paleta
+		pl_pe.play();
 		m_ball.Rebotar(m_player.DimensionesPlayer());
 	}
 	
 	for (auto it = m_blocks.begin(); it != m_blocks.end(); ){
 		if (m_ball.Colisiona(*it)) {
 			if(it->isSpecialBlock()){     /// Bloque especial de puntos
+				bl_pl.play();
 				m_stats.aumentarpuntaje(75);
 				m_stats.IncrementarVidas();
 				m_ball.Rebotar();
@@ -77,6 +79,7 @@ void Nivel5::Update(Game &g, Event &e){
 			
 			/// Bloque especial de puntos (resta 100 y 1 vida)
 			if(it->isSpecialPts()){
+				bl_pl.play();
 				m_stats.restarpuntaje(100);
 				m_ball.Rebotar();
 				m_stats.DecrementarVida();
@@ -85,6 +88,7 @@ void Nivel5::Update(Game &g, Event &e){
 			} 
 			
 			/// Si no es especial el bloque pasa esto..
+			bl_pl.play();
 			contador_bloques_normales++;
 			m_stats.aumentarpuntaje(25);
 			m_ball.Rebotar();

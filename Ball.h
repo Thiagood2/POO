@@ -20,8 +20,10 @@ private:
 	Vector2f m_speed;
 	float velocity;
 	
-	static constexpr float MAX_SPEED_X = 3.0f; /// VARIABLE ESTATICA QUE NO SE PUEDE MODIFICAR EN TIEMPO DE COMPILACION
+	float MAX_SPEED_X = 3.0f;
 	bool ball_moving; bool is_falling;
+	
+	SoundBuffer bordes_pelota; Sound sonido_b;
 	
 };
 

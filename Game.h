@@ -4,6 +4,7 @@
 #include "Scene.h"
 #include <SFML/Audio/Music.hpp>
 #include "Nivel.h"
+#include <SFML/Window/Event.hpp>
 using namespace sf;
 
 class Game {

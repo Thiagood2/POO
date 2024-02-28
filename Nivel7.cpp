@@ -46,11 +46,13 @@ void Nivel7::Update (Game &g, Event &e) {
 	
 	
 	if(m_ball.Colisiona(m_player)){
+		pl_pe.play();
 		m_ball.Rebotar(m_player.DimensionesPlayer());
 	}
 	
 	for(auto it = m_blocks.begin();it!=m_blocks.end();it++){
 		if(m_ball.Colisiona(*it)){
+			bl_pl.play();
 			m_stats.aumentarpuntaje(25);
 			m_blocks.erase(it);
 			m_ball.Rebotar();

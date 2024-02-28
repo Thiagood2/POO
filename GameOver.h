@@ -12,14 +12,19 @@ using namespace std;
 class GameOver : public Scene {
 public:
 	GameOver();
-	void Update(Game &g, sf::Event &e) override;
+	void Update(Game &g,  Event &e) override;
 	void Draw(RenderWindow &window) override;
 	void MoveUp() override;
 	void MoveDown()override;
 private:
-	Text game_overtxt; Font m_font;
-	Text scoretxt; int m_score;
+	Text game_overtxt; Font m_font; 
 	
+	
+	SoundBuffer sonido_perder;
+	Sound perder;
+	
+	
+	Text scoretxt; int m_score;
 	vector<Text>option;
 	int Max_Items_Menu = 2;
 	int selectItem;

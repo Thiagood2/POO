@@ -26,7 +26,7 @@ Nivel3::Nivel3() {
 			if (distance % 2 == 0) {
 				float x = j * (blockWidth + 6.f) + 50.f;
 				float y = i * (blockHeight + 6.f) + 5.f;
-				bool isSpecial_menospts = (rand () % 30 == 0); /// Probabilidad 1 / 30 de ser especial el bloque puntos (resta 100 y 1 vida)
+				bool isSpecial_menospts = (rand () % 20 == 0); /// Probabilidad 1 / 30 de ser especial el bloque puntos (resta 100 y 1 vida)
 				if(isSpecial_menospts){
 					m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color::Blue,false,false,false,true);
 					contador_bloques_special++;
@@ -60,6 +60,7 @@ void Nivel3::Update(Game &g, Event &e){
 	
 	
 	if(m_ball.Colisiona(m_player)){
+		pl_pe.play();
 		m_ball.Rebotar(m_player.DimensionesPlayer());
 	}
 	
@@ -67,6 +68,7 @@ void Nivel3::Update(Game &g, Event &e){
 		if (m_ball.Colisiona(*it)) {
 			/// Bloque especial de puntos (resta 100)
 			if(it->isSpecialPts()){
+				bl_pl.play();
 				m_stats.restarpuntaje(100);
 				m_ball.Rebotar();
 				m_stats.DecrementarVida();
@@ -75,6 +77,7 @@ void Nivel3::Update(Game &g, Event &e){
 			} 
 			
 			/// Si no es especial el bloque pasa esto..
+			bl_pl.play();
 			contador_bloques_normales++;
 			m_stats.aumentarpuntaje(25);
 			m_ball.Rebotar();

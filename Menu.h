@@ -17,12 +17,14 @@ using namespace std;
 class Menu : public Scene {
 public:
 	Menu();
-	void Update(Game &g, Event &e) override;
+	void Update(Game &g,  Event &e) override;
 	void Draw(RenderWindow &window) override;
 	void MoveUp() override;
 	void MoveDown()override;
 private:
 	vector<Text>option;
+	
+	SoundBuffer sonido_inicio; Sound sonido_i;
 	
 	int Max_Items_Menu = 4;
 	int selectItem;

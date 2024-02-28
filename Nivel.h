@@ -12,7 +12,7 @@
 class Nivel : public Scene {
 public:
 	Nivel();
-	virtual void Update(Game &g, sf::Event &e) = 0;
+	virtual void Update(Game &g,  Event &e) = 0;
 	virtual void Draw(RenderWindow &window) = 0;
 	virtual ~Nivel (){}; /// PREG A PROFE
 	
@@ -21,6 +21,10 @@ protected:
 	const int columnCount = 10;  /// Columnas
 	const float blockWidth = 74.f;  /// Ancho de bloque
 	const float blockHeight = 20.f;  /// Alto de bloque
+	
+	SoundBuffer bloq_pelota, paleta_pelota; Sound bl_pl, pl_pe;
+	Music musica_principal;
+	
 	
 	int contador_bloques_normales = 0;
 	int contador_bloques_special = 0;
@@ -31,6 +35,7 @@ protected:
 	
 	vector<Blocks>m_blocks;
 };
+
 
 #endif
 

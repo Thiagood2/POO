@@ -19,7 +19,8 @@ GameOver::GameOver() {
 	game_overtxt.setFillColor(Color::White);
 	game_overtxt.setPosition(200.f,100.f);
 
-	
+	sonido_perder.loadFromFile("lose.wav");
+	perder.setBuffer(sonido_perder);
 	
 	scoretxt.setFont(m_font);
 	scoretxt.setCharacterSize(24);
@@ -49,6 +50,7 @@ GameOver::GameOver() {
 	
 	
 	game_overtxt.setString("GAME OVER");
+	perder.play();
 	scoretxt.setString("SCORE: "+to_string(m_score));
 	
 	
@@ -57,19 +59,13 @@ GameOver::GameOver() {
 }
 
 
-void GameOver::Update(Game &g,Event &e){
-	
-	
-	
-	if((option[selectItem].getString()== option[0].getString()) and Keyboard::isKeyPressed(Keyboard::Return)){
+void GameOver::Update(Game &g,Event &e) {
+	if (option[selectItem].getString() == option[0].getString() and Keyboard::isKeyPressed(Keyboard::Space)) {
 		g.SetScene(new Nivel1());
-	}
-	if((option[selectItem].getString()== option[1].getString()) and Keyboard::isKeyPressed(Keyboard::Return)){
+	} else if (option[selectItem].getString() == option[1].getString()and Keyboard::isKeyPressed(Keyboard::Space)) {
 		g.SetScene(new Menu());
-		
 	}
 }
-
 
 
 

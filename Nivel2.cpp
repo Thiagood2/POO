@@ -21,10 +21,10 @@ Nivel2::Nivel2() {
 			float y = i * (blockHeight + 6.f) + 5.f;
 			
 			
-			bool isSpecial = (rand () % 15 == 0); /// Probabilidad de 1 / 15 de ser especial el bloque nivel (Saltea 1)
-			bool isSpecial_puntos = (rand()% 20 == 0); /// Probabilidad de 1 / 20 de ser especial  el bloque puntos
-			bool isSpecial_nivel_d = (rand () % 40 == 0); /// Probabilidad 1 / 40 de ser especial el bloque Nivel (saltea 2)
-			bool isSpecial_menospts = (rand () % 10 == 0); /// Probabilidad 1 / 10 de ser especial el bloque puntos (resta 100 y 1 vida)
+			bool isSpecial = (rand () % 110 == 0); /// Probabilidad de 1 / 110 de ser especial el bloque nivel (Saltea 1)
+			bool isSpecial_puntos = (rand()% 60 == 0); /// Probabilidad de 1 / 20 de ser especial  el bloque puntos
+			bool isSpecial_nivel_d = (rand () % 150 == 0); /// Probabilidad 1 / 40 de ser especial el bloque Nivel (saltea 2)
+			bool isSpecial_menospts = (rand () % 50 == 0); /// Probabilidad 1 / 10 de ser especial el bloque puntos (resta 100 y 1 vida)
 			
 			if(isSpecial){
 				m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color(255,0,128),false,true);
@@ -54,7 +54,7 @@ Nivel2::Nivel2() {
 	
 }
 
-void Nivel2::Update(Game &g, Event &e){
+void Nivel2::Update(Game &g,  Event &e){
 	
 	
 	if(Keyboard::isKeyPressed(Keyboard::Escape)){
@@ -70,13 +70,15 @@ void Nivel2::Update(Game &g, Event &e){
 	
 	
 	if(m_ball.Colisiona(m_player)){
+		pl_pe.play();
 		m_ball.Rebotar(m_player.DimensionesPlayer());
 	}
 	
 	for (auto it = m_blocks.begin(); it != m_blocks.end(); ){
 		if (m_ball.Colisiona(*it)) {
-			if (it->isSpecialNivel()) {         /// Bloque especial de Nivel (Saltea 1)
+			if (it->isSpecialNivel()) { /// Bloque especial de Nivel (Saltea 1)
 				g.SetScene(new Nivel3());
+				bl_pl.play();
 				m_stats.aumentarpuntaje(100);
 				m_ball.Rebotar();
 				it = m_blocks.erase(it); /// Eliminar bloque especial
@@ -85,6 +87,7 @@ void Nivel2::Update(Game &g, Event &e){
 			
 			/// Bloque especial de puntos
 			if(it->isSpecialBlock()){
+				bl_pl.play();
 				m_stats.aumentarpuntaje(75);
 				m_stats.IncrementarVidas();
 				m_ball.Rebotar();
@@ -96,6 +99,7 @@ void Nivel2::Update(Game &g, Event &e){
 			/// Bloque especial Nivel (Saltea 2)
 			if(it->isSpecialNivel_dos()){
 				m_stats.aumentarpuntaje(200);
+				bl_pl.play();
 				m_stats.IncrementarNivel();
 				g.SetScene(new Nivel4());
 				m_ball.Rebotar();
@@ -105,6 +109,7 @@ void Nivel2::Update(Game &g, Event &e){
 			
 			/// Bloque especial de puntos (resta 100)
 			if(it->isSpecialPts()){
+				bl_pl.play();
 				m_stats.restarpuntaje(100);
 				m_ball.Rebotar();
 				m_stats.DecrementarVida();
@@ -113,6 +118,7 @@ void Nivel2::Update(Game &g, Event &e){
 			} 
 			
 			/// Si no es especial el bloque pasa esto..
+			bl_pl.play();
 			contador_bloques_normales++;
 			m_stats.aumentarpuntaje(25);
 			m_ball.Rebotar();

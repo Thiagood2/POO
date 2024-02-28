@@ -19,9 +19,9 @@ Nivel4::Nivel4() {
 				float x = j * (blockWidth + 6.f) + 5.f;
 				float y = i * (blockHeight + 6.f) + 5.f;
 				
-				bool isSpecial = (rand () % 15 == 0); /// Probabilidad de 1 / 100 de ser especial el bloque nivel (Saltea 1)
-				bool isSpecial_puntos = (rand()% 20 == 0); /// Probabilidad de 1 / 40 de ser especial  el bloque puntos
-				bool isSpecial_menospts = (rand () % 10 == 0); /// Probabilidad 1 / 30 de ser especial el bloque puntos (resta 100 y 1 vida)
+				bool isSpecial = (rand () % 100 == 0); /// Probabilidad de 1 / 100 de ser especial el bloque nivel (Saltea 1)
+				bool isSpecial_puntos = (rand()% 40 == 0); /// Probabilidad de 1 / 40 de ser especial  el bloque puntos
+				bool isSpecial_menospts = (rand () % 40 == 0); /// Probabilidad 1 / 30 de ser especial el bloque puntos (resta 100 y 1 vida)
 				
 				if(isSpecial){
 					m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color(255,0,128),false,true);
@@ -46,7 +46,7 @@ Nivel4::Nivel4() {
 	bloques_totales = m_blocks.size();
 }
 
-void Nivel4::Update(Game &g, Event &e){
+void Nivel4::Update(Game &g,  Event &e){
 	if(Keyboard::isKeyPressed(Keyboard::Escape)){
 		g.SetScene(new Menu());
 		m_stats.ResetStats();
@@ -60,12 +60,14 @@ void Nivel4::Update(Game &g, Event &e){
 	
 	
 	if(m_ball.Colisiona(m_player)){
+		pl_pe.play();
 		m_ball.Rebotar(m_player.DimensionesPlayer());
 	}
 	
 	for (auto it = m_blocks.begin(); it != m_blocks.end(); ){
 		if (m_ball.Colisiona(*it)) {
 			if (it->isSpecialNivel()) {         /// Bloque especial de Nivel (Saltea 1)
+				bl_pl.play();
 				g.SetScene(new Nivel5());
 				m_stats.aumentarpuntaje(100);
 				m_ball.Rebotar();
@@ -75,6 +77,7 @@ void Nivel4::Update(Game &g, Event &e){
 			
 			/// Bloque especial de puntos
 			if(it->isSpecialBlock()){
+				bl_pl.play();
 				m_stats.aumentarpuntaje(75);
 				m_stats.IncrementarVidas();
 				m_ball.Rebotar();
@@ -85,6 +88,7 @@ void Nivel4::Update(Game &g, Event &e){
 			/// Bloque especial de puntos (resta 100 y 1 vida)
 			if(it->isSpecialPts()){
 				m_stats.restarpuntaje(100);
+				bl_pl.play();
 				m_ball.Rebotar();
 				m_stats.DecrementarVida();
 				it = m_blocks.erase(it); /// Eliminar bloque especial
@@ -92,6 +96,7 @@ void Nivel4::Update(Game &g, Event &e){
 			} 
 			
 			/// Si no es especial el bloque pasa esto..
+			bl_pl.play();
 			contador_bloques_normales++;
 			m_stats.aumentarpuntaje(25);
 			m_ball.Rebotar();

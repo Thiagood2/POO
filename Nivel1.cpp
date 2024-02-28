@@ -19,7 +19,7 @@ Nivel1::Nivel1() {
 			float y = i * (blockHeight + 6.f) + 5.f;
 			
 			bool isSpecial = (rand () % 100 == 0); /// Probabilidad de 1 / 100 de ser especial el bloque nivel (Saltea 1)
-			bool isSpecial_puntos = (rand()% 40 == 0); /// Probabilidad de 1 / 40 de ser especial  el bloque puntos
+			bool isSpecial_puntos = (rand()% 30 == 0); /// Probabilidad de 1 / 30 de ser especial  el bloque puntos
 			bool isSpecial_nivel_d = (rand () % 110 == 0); /// Probabilidad 1 / 110 de ser especial el bloque Nivel (saltea 2)
 			
 			if(isSpecial){
@@ -43,7 +43,7 @@ Nivel1::Nivel1() {
 }
 	
 
-void Nivel1::Update(Game &g, Event &e){
+void Nivel1::Update(Game &g,  Event &e){
 	
 	if(Keyboard::isKeyPressed(Keyboard::Escape)){
 		g.SetScene(new Menu());
@@ -56,8 +56,9 @@ void Nivel1::Update(Game &g, Event &e){
 		m_stats.draw_text(false);
 	}
 	
-	if(m_ball.Colisiona(m_player)){
-		m_ball.Rebotar(m_player.DimensionesPlayer());
+	if(m_ball.Colisiona(m_player)){ /// Colision pelota-paleta
+		pl_pe.play(); /// Musica de colision pelota-paleta
+		m_ball.Rebotar(m_player.DimensionesPlayer()); 
 	}
 	
 	
@@ -65,6 +66,8 @@ void Nivel1::Update(Game &g, Event &e){
 	for (auto it = m_blocks.begin(); it != m_blocks.end(); ){
 		if (m_ball.Colisiona(*it)) {
 			if (it->isSpecialNivel()) {         /// Bloque especial de Nivel
+				
+				bl_pl.play();		 /// Musica de choque de pelota-bloque (ladrillo)
 				g.SetScene(new Nivel2());
 				m_stats.aumentarpuntaje(100);
 				m_ball.Rebotar();
@@ -74,6 +77,7 @@ void Nivel1::Update(Game &g, Event &e){
 			
 			/// Bloque especial de puntos
 			if(it->isSpecialBlock()){
+				bl_pl.play();
 				m_stats.aumentarpuntaje(75);
 				m_stats.IncrementarVidas();
 				m_ball.Rebotar();
@@ -83,6 +87,7 @@ void Nivel1::Update(Game &g, Event &e){
 			
 			/// Bloque especial Nivel (Saltea 2)
 			if(it->isSpecialNivel_dos()){
+				bl_pl.play();
 				m_stats.aumentarpuntaje(200);
 				g.SetScene(new Nivel3());
 				m_ball.Rebotar();
@@ -91,6 +96,7 @@ void Nivel1::Update(Game &g, Event &e){
 			}   
 			
 			/// Si no es especial el bloque pasa esto..
+			bl_pl.play(); 
 			m_stats.aumentarpuntaje(25);
 			m_ball.Rebotar();
 			it = m_blocks.erase(it); /// Avanza el iterador después de eliminar el bloque no especial

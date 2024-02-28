@@ -15,7 +15,8 @@ Ball::Ball(){
 	m_speed.y = velocity; is_falling = 0;
 	m_speed.x = 0;
 	
-	
+	bordes_pelota.loadFromFile("rebote.wav");
+	sonido_b.setBuffer(bordes_pelota);
 }
 
 void Ball::Update(){
@@ -25,10 +26,12 @@ void Ball::Update(){
 	
 	if(p.x<0 or p.x + 16> 800){
 		m_speed.x = -m_speed.x;
+		sonido_b.play();
 		
 	}
 	if(p.y < 0){
 		m_speed.y = -m_speed.y;
+		sonido_b.play();
 	}
 	if(p.y> 600){
 		m_ball.setPosition(800 / 2.f,600 / 2.f);

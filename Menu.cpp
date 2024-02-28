@@ -36,6 +36,10 @@ Menu::Menu() {
 	option[2].setString("<GUIA>");
 	option[3].setString("<EXIT>");
 	
+	sonido_inicio.loadFromFile("start.wav");
+	sonido_i.setBuffer(sonido_inicio);
+	
+	sonido_i.play();
 	
 	
 	selectItem = 0;

@@ -5,7 +5,7 @@
 class Nivel7 : public Nivel {
 public:
 	Nivel7();
-	void Update (Game &g, Event &e)override;
+	void Update (Game &g,  Event &e)override;
 	void Draw (RenderWindow & window)override;
 private:
 };

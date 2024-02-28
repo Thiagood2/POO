@@ -61,7 +61,7 @@ HighScores::HighScores() {
 	
 }
 
-void HighScores::Update(Game &g, Event &e){
+void HighScores::Update(Game &g,Event &e){
 	if(Keyboard::isKeyPressed(Keyboard::Space)){
 		g.SetScene(new Menu());
 	}
