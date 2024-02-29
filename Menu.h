@@ -17,8 +17,9 @@ using namespace std;
 class Menu : public Scene {
 public:
 	Menu();
-	void Update(Game &g,  Event &e) override;
+	void Update(Game &g) override;
 	void Draw(RenderWindow &window) override;
+	void ProcesarEventos(Game &g, Event &ev)override;
 	void MoveUp() override;
 	void MoveDown()override;
 private:
@@ -26,7 +27,7 @@ private:
 	
 	SoundBuffer sonido_inicio; Sound sonido_i;
 	
-	int Max_Items_Menu = 4;
+	int Max_Items_Menu = 5;
 	int selectItem;
 	Sprite s_logo;
 	Texture t_logo;

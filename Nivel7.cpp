@@ -3,9 +3,10 @@
 #include "Menu.h"
 #include "GameOver.h"
 #include <SFML/Graphics/RenderWindow.hpp>
+#include "Nivel1.h"
 
 Nivel7::Nivel7() {
-	m_ball.IncrementarVelocidad(7.f);
+	m_ball.IncrementarVelocidad(++incremento_velocidad);
 	m_ball.setBallMoving(false);
 	
 	m_stats.IncrementarNivel();
@@ -32,7 +33,7 @@ Nivel7::Nivel7() {
 	}
 }
 
-void Nivel7::Update (Game &g, Event &e) {
+void Nivel7::Update (Game &g) {
 	if(Keyboard::isKeyPressed(Keyboard::Escape)){
 		g.SetScene(new Menu());
 		m_stats.ResetStats();
@@ -61,7 +62,7 @@ void Nivel7::Update (Game &g, Event &e) {
 	}
 	
 	if(m_blocks.empty()){
-		g.SetScene(new GameWon());
+		g.SetScene(new Nivel1());
 	}
 	
 	if(m_ball.falling()){

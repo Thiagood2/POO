@@ -12,8 +12,9 @@ using namespace std;
 class GameOver : public Scene {
 public:
 	GameOver();
-	void Update(Game &g,  Event &e) override;
+	void Update(Game &g) override;
 	void Draw(RenderWindow &window) override;
+	void ProcesarEventos(Game &g, Event &ev)override;
 	void MoveUp() override;
 	void MoveDown()override;
 private:

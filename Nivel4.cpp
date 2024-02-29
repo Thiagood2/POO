@@ -6,7 +6,7 @@
 #include "Nivel5.h"
 
 Nivel4::Nivel4() {
-	m_ball.IncrementarVelocidad(4.f);
+	m_ball.IncrementarVelocidad(++incremento_velocidad);
 	m_ball.setBallMoving(false);
 	
 	m_stats.IncrementarNivel();
@@ -46,7 +46,7 @@ Nivel4::Nivel4() {
 	bloques_totales = m_blocks.size();
 }
 
-void Nivel4::Update(Game &g,  Event &e){
+void Nivel4::Update(Game &g){
 	if(Keyboard::isKeyPressed(Keyboard::Escape)){
 		g.SetScene(new Menu());
 		m_stats.ResetStats();

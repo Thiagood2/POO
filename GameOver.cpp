@@ -59,15 +59,11 @@ GameOver::GameOver() {
 }
 
 
-void GameOver::Update(Game &g,Event &e) {
-	if (option[selectItem].getString() == option[0].getString() and Keyboard::isKeyPressed(Keyboard::Space)) {
-		g.SetScene(new Nivel1());
-	} else if (option[selectItem].getString() == option[1].getString()and Keyboard::isKeyPressed(Keyboard::Space)) {
-		g.SetScene(new Menu());
-	}
+void GameOver::Update(Game &g) {
+	
+	
+	
 }
-
-
 
 void GameOver::Draw(RenderWindow &w){
 	w.clear({0,0,0});
@@ -78,6 +74,25 @@ void GameOver::Draw(RenderWindow &w){
 		w.draw(x);
 	}
 
+}
+
+void GameOver::ProcesarEventos(Game &g, Event &ev){
+	if (option[selectItem].getString() == option[0].getString() and ev.type== Event::KeyPressed and ev.key.code == Keyboard::Return) {
+		g.SetScene(new Nivel1());
+	}
+	
+	
+	if (option[selectItem].getString() == option[1].getString()and ev.type== Event::KeyPressed and ev.key.code == Keyboard::Return) {
+		g.SetScene(new Menu());
+	}
+	
+	
+	if(ev.type== Event::KeyPressed and ev.key.code == Keyboard::Up){
+		MoveUp();
+	}
+	if(ev.type== Event::KeyPressed and ev.key.code == Keyboard::Down){
+		MoveDown();
+	}
 }
 
 

@@ -5,7 +5,7 @@
 #include "Nivel7.h"
 
 Nivel6::Nivel6() {
-	m_ball.IncrementarVelocidad(6.f);
+	m_ball.IncrementarVelocidad(++incremento_velocidad);
 	m_ball.setBallMoving(false);
 	
 	m_stats.IncrementarNivel();
@@ -39,7 +39,7 @@ Nivel6::Nivel6() {
 	
 }
 
-void Nivel6::Update(Game &g,  Event &e){
+void Nivel6::Update(Game &g){
 	if(Keyboard::isKeyPressed(Keyboard::Escape)){
 		g.SetScene(new Menu());
 		m_stats.ResetStats();

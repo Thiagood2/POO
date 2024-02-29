@@ -10,7 +10,8 @@ using namespace std;
 
 Nivel3::Nivel3() {
 	
-	m_ball.IncrementarVelocidad(3.f); 
+	m_ball.IncrementarVelocidad(++incremento_velocidad);
+	
 	m_ball.setBallMoving(false);
 	
 	m_stats.IncrementarNivel();	
@@ -43,7 +44,7 @@ Nivel3::Nivel3() {
 }
 
 
-void Nivel3::Update(Game &g, Event &e){
+void Nivel3::Update(Game &g){
 	
 	
 	if(Keyboard::isKeyPressed(Keyboard::Escape)){

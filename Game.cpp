@@ -11,23 +11,9 @@ Game::Game(): m_window(VideoMode(800,600), "Akari Breackout"){
 
 void Game::Run (){
 	while(m_window.isOpen()) {
-		Event e;
-		while(m_window.pollEvent(e)) {
-			if(e.type == Event::Closed){
-				m_window.close();
-			}
-			if(e.type == sf::Event::KeyPressed){
-				if(e.key.code == Keyboard::Up){
-					m_scene ->MoveUp();
-				}
-			}
-			if(e.type == sf::Event::KeyPressed){
-				if(e.key.code == Keyboard::Down){
-					m_scene ->MoveDown();
-				}
-			}
-		}
-		m_scene ->Update(*this, e);
+		ProcessEvents();
+		
+		m_scene ->Update(*this);
 		m_scene ->Draw(m_window);
 		m_window.display();
 		
@@ -39,6 +25,18 @@ void Game::Run (){
 	}
 }
 
+
+void Game::ProcessEvents(){
+	Event e;
+	while(m_window.pollEvent(e)) {
+		if(e.type == Event::Closed){
+			m_window.close();
+		}else{
+			m_scene->ProcesarEventos(*this,e);
+		}
+	}
+}
+
 void Game::CloseGame(){
 	m_window.close();
 }
@@ -46,6 +44,8 @@ void Game::CloseGame(){
 void Game::SetScene (Scene *new_scene){
 	m_next_scene = new_scene;
 }
+
+
 
 
 Game::~Game(){

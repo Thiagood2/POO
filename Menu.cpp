@@ -5,19 +5,20 @@
 #include "HighScores.h"
 #include "Nivel1.h"
 #include "Guia.h"
+#include "Perfil.h"
 using namespace std;
 
 Menu::Menu() {
 	t_logo.loadFromFile("logotipo.png");
 	s_logo.setTexture(t_logo);
-	s_logo.setPosition(190,150);
+	s_logo.setPosition(190,100);
 	
 	m_font.loadFromFile("fuente_menu.ttf");
 	
 
 	
 	
-	int Var_y = 300;
+	int Var_y = 250;
 	option.resize(Max_Items_Menu);
 	
 	for(int i=0;i<Max_Items_Menu;i++){
@@ -32,9 +33,10 @@ Menu::Menu() {
 	option[2].setFillColor(Color::White);
 	
 	option[0].setString("<PLAY>");
-	option[1].setString("<SCORES>");
-	option[2].setString("<GUIA>");
-	option[3].setString("<EXIT>");
+	option[1].setString("<PERFIL>");
+	option[2].setString("<SCORES>");
+	option[3].setString("<GUIA>");
+	option[4].setString("<EXIT>");
 	
 	sonido_inicio.loadFromFile("start.wav");
 	sonido_i.setBuffer(sonido_inicio);
@@ -47,18 +49,12 @@ Menu::Menu() {
 	
 }
 
-void Menu::Update(Game &g, Event &e){	
+void Menu::Update(Game &g){	
 	
 	if((option[selectItem].getString()== option[0].getString()) and Keyboard::isKeyPressed(Keyboard::Return)){
 		g.SetScene(new Nivel1());
 	}
 	
-	if((option[selectItem].getString()== option[1].getString()) and Keyboard::isKeyPressed(Keyboard::Return)){
-		g.SetScene(new HighScores());
-	}
-	if((option[selectItem].getString()== option[2].getString()) and Keyboard::isKeyPressed(Keyboard::Return)){
-		g.SetScene(new Guia());
-	}
 	if((option[selectItem].getString()== option[3].getString()) and Keyboard::isKeyPressed(Keyboard::Return)){
 		g.CloseGame();
 	}
@@ -77,7 +73,7 @@ void Menu::Draw(RenderWindow &window){
 void Menu::MoveUp(){
 	if(selectItem - 1 >= 0 ){
 		option[selectItem].setFillColor(Color::White);
-		selectItem--;
+		selectItem--;									/// Va pintando los distintos apartado de menu, dependiendo de donde nos posicionemos con las flechitas del teclado
 		option[selectItem].setFillColor(Color::Green);
 	}
 }
@@ -86,8 +82,29 @@ void Menu::MoveUp(){
 void Menu::MoveDown(){
 	if(selectItem + 1 < Max_Items_Menu ){
 		option[selectItem].setFillColor(Color::White);
-		selectItem++;
+		selectItem++;									/// Va pintando los distintos apartado de menu, dependiendo de donde nos posicionemos con las flechitas del teclado
 		option[selectItem].setFillColor(Color::Green);
 	}
 }
 
+void Menu::ProcesarEventos(Game &g, Event &ev){
+	if(ev.type== Event::KeyPressed and ev.key.code == Keyboard::Up){
+		MoveUp();
+	}
+	if(ev.type== Event::KeyPressed and ev.key.code == Keyboard::Down){
+		MoveDown();
+	}
+	
+	if((option[selectItem].getString()== option[1].getString()) and ev.type== Event::KeyPressed and ev.key.code == Keyboard::Return){
+		g.SetScene(new Perfil());
+	}
+	
+	if((option[selectItem].getString()== option[2].getString()) and ev.type== Event::KeyPressed and ev.key.code == Keyboard::Return){
+		g.SetScene(new Perfil());
+	}
+
+	if((option[selectItem].getString()== option[3].getString()) and ev.type== Event::KeyPressed and ev.key.code == Keyboard::Return){
+		g.SetScene(new Guia());
+	}
+	
+}

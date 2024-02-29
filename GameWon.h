@@ -11,7 +11,7 @@ using namespace std;
 class GameWon : public Scene {
 public:
 	GameWon();
-	void Update (Game &g,  Event &e);
+	void Update (Game &g);
 	void Draw (RenderWindow & window);
 	void MoveUp ( );
 	void MoveDown ( );

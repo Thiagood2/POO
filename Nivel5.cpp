@@ -4,7 +4,7 @@
 #include "GameOver.h"
 #include "Nivel6.h"
 Nivel5::Nivel5() {
-	m_ball.IncrementarVelocidad(5.f);
+	m_ball.IncrementarVelocidad(++incremento_velocidad);
 	m_ball.setBallMoving(false);
 	
 	m_stats.IncrementarNivel();
@@ -48,7 +48,7 @@ Nivel5::Nivel5() {
 	bloques_totales = m_blocks.size();
 }
 
-void Nivel5::Update(Game &g,  Event &e){
+void Nivel5::Update(Game &g){
 	if(Keyboard::isKeyPressed(Keyboard::Escape)){ /// Escape para volver al menu
 		g.SetScene(new Menu());
 		m_stats.ResetStats();

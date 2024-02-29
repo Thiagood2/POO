@@ -61,13 +61,18 @@ HighScores::HighScores() {
 	
 }
 
-void HighScores::Update(Game &g,Event &e){
-	if(Keyboard::isKeyPressed(Keyboard::Space)){
-		g.SetScene(new Menu());
-	}
+void HighScores::Update(Game &g){
 	
 }
 
+
+void HighScores::ProcesarEventos(Game &g, Event &ev){
+	
+	
+	if(ev.type== Event::KeyPressed and ev.key.code == Keyboard::Return){
+		g.SetScene(new Menu());
+	}
+}
 
 void HighScores::Draw(RenderWindow &w){
 	w.clear({0,0,0});

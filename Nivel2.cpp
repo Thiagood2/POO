@@ -54,7 +54,7 @@ Nivel2::Nivel2() {
 	
 }
 
-void Nivel2::Update(Game &g,  Event &e){
+void Nivel2::Update(Game &g){
 	
 	
 	if(Keyboard::isKeyPressed(Keyboard::Escape)){

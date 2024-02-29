@@ -12,11 +12,12 @@
 class Nivel : public Scene {
 public:
 	Nivel();
-	virtual void Update(Game &g,  Event &e) = 0;
+	virtual void Update(Game &g) = 0;
 	virtual void Draw(RenderWindow &window) = 0;
 	virtual ~Nivel (){}; /// PREG A PROFE
 	
 protected:
+	
 	const int rowCount = 10;  /// Filas
 	const int columnCount = 10;  /// Columnas
 	const float blockWidth = 74.f;  /// Ancho de bloque
@@ -29,7 +30,7 @@ protected:
 	int contador_bloques_normales = 0;
 	int contador_bloques_special = 0;
 	
-	int bloques_totales = 0;
+	int bloques_totales = 0; int incremento_velocidad = 0;
 	
 	Ball m_ball; Player m_player;
 	

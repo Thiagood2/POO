@@ -12,6 +12,7 @@ public:
 	Game();
 	void Run();
 	void SetScene (Scene *new_scene);
+	void ProcessEvents();
 	~Game();
 	void CloseGame();
 private:

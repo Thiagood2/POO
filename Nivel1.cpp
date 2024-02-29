@@ -5,12 +5,12 @@
 #include "GameOver.h"
 #include <cmath>
 #include "Nivel3.h"
+#include "GameWon.h"
 using namespace std;
 
 Nivel1::Nivel1() {
 	m_ball.setBallMoving(false);
-	m_stats.ResetStats();
-	
+	m_ball.IncrementarVelocidad(++incremento_velocidad);
 	
 	/// Piramide invertida
 	for (int i = 0; i < rowCount; ++i) {
@@ -24,12 +24,15 @@ Nivel1::Nivel1() {
 			
 			if(isSpecial){
 				m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color(255,0,128),false,true);
+				contador_bloques_special++;
 			}else{
 				if(isSpecial_puntos){
 					m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color::Yellow,true,false);
+					contador_bloques_special++;
 				}else{
 					if(isSpecial_nivel_d){
 						m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color(255,165,0),false,false,true);
+						contador_bloques_special++;
 					}else{
 						m_blocks.emplace_back(x, y, blockWidth, blockHeight, Color::Black);
 					}
@@ -43,7 +46,7 @@ Nivel1::Nivel1() {
 }
 	
 
-void Nivel1::Update(Game &g,  Event &e){
+void Nivel1::Update(Game &g){
 	
 	if(Keyboard::isKeyPressed(Keyboard::Escape)){
 		g.SetScene(new Menu());
@@ -68,7 +71,7 @@ void Nivel1::Update(Game &g,  Event &e){
 			if (it->isSpecialNivel()) {         /// Bloque especial de Nivel
 				
 				bl_pl.play();		 /// Musica de choque de pelota-bloque (ladrillo)
-				g.SetScene(new Nivel2());
+				g.SetScene(new GameWon());
 				m_stats.aumentarpuntaje(100);
 				m_ball.Rebotar();
 				it = m_blocks.erase(it); /// Eliminar bloque especial
@@ -108,15 +111,15 @@ void Nivel1::Update(Game &g,  Event &e){
 	
 	
 	if(m_blocks.empty() or contador_bloques_normales ==  (bloques_totales - contador_bloques_special)){ /// EL nivel termina cuando no hay bloques, o cuando se rompen todos los bloques normales
-		g.SetScene(new Nivel2());
+		g.SetScene(new GameWon());
 	}
 	
 	
-	if(m_ball.falling()){
+	if(m_ball.falling()){  /// Si se cae la pelota, 1 vida menos
 		m_stats.DecrementarVida();
 	}
 	
-	if(m_stats.VerVidas() == 0){
+	if(m_stats.VerVidas() == 0){ /// Si no hay vidas, entonces se va a la scena gameover y se guarda el puntaje en block de notas
 		m_stats.GuardarScore(m_stats.obtenerpuntaje());
 		g.SetScene(new GameOver());
 	}

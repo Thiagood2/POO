@@ -9,8 +9,10 @@ class Game;
 
 class Scene {
 public:
-	virtual void Update(Game &g,  Event &e) = 0;
+	virtual void Update(Game &g) = 0;
 	virtual void Draw(RenderWindow &window) = 0;
+	virtual void ProcesarEventos(Game &g, Event &ev){};
+	
 	virtual void MoveUp(){};
 	virtual void MoveDown(){};
 	virtual ~Scene(){};
