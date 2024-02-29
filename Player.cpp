@@ -15,11 +15,11 @@ Player::Player(){
 void Player::Update(){
 	auto p = m_player.getPosition();
 	
-	if(Keyboard::isKeyPressed(Keyboard::A) or (Keyboard::isKeyPressed(Keyboard::Left))){
-		m_player.move(-6,0);
+	if(Keyboard::isKeyPressed(Keyboard::A) or (Keyboard::isKeyPressed(Keyboard::Left))){ /// Velocidad de la paleta
+		m_player.move(-10,0);
 	}
 	if((Keyboard::isKeyPressed(Keyboard::D)) or (Keyboard::isKeyPressed(Keyboard::Right))){
-		m_player.move(6,0);
+		m_player.move(10,0);
 	}
 	
 	LimitesPlayer();
@@ -29,8 +29,8 @@ void Player::Update(){
 
 void Player::LimitesPlayer(){
 	if(m_player.getPosition().x < 0){
-		m_player.setPosition(0, m_player.getPosition().y);
-	}else{
+		m_player.setPosition(0, m_player.getPosition().y);  /// Limites de la paleta
+	}else{	
 		if(m_player.getPosition().x + m_player.getGlobalBounds().width > 800){
 			m_player.setPosition(800 - m_player.getGlobalBounds().width, m_player.getPosition().y);
 		}
@@ -50,5 +50,5 @@ FloatRect Player::DimensionesPlayer(){
 
 
 void Player::CambiarDimensiones(int x, int y){
-	m_player.setSize(Vector2f(x,y));
+	m_player.setSize(Vector2f(x,y));  /// Cambiar dimensiones, niveles 5 y 6
 }

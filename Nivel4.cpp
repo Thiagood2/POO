@@ -19,9 +19,9 @@ Nivel4::Nivel4() {
 				float x = j * (blockWidth + 6.f) + 5.f;
 				float y = i * (blockHeight + 6.f) + 5.f;
 				
-				bool isSpecial = (rand () % 100 == 0); /// Probabilidad de 1 / 100 de ser especial el bloque nivel (Saltea 1)
+				bool isSpecial = (rand () % 70 == 0); /// Probabilidad de 1 / 70 de ser especial el bloque nivel (Saltea 1)
 				bool isSpecial_puntos = (rand()% 40 == 0); /// Probabilidad de 1 / 40 de ser especial  el bloque puntos
-				bool isSpecial_menospts = (rand () % 40 == 0); /// Probabilidad 1 / 30 de ser especial el bloque puntos (resta 100 y 1 vida)
+				bool isSpecial_menospts = (rand () % 50 == 0); /// Probabilidad 1 / 50 de ser especial el bloque puntos (resta 100 y 1 vida)
 				
 				if(isSpecial){
 					m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color(255,0,128),false,true);

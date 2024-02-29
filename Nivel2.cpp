@@ -21,10 +21,10 @@ Nivel2::Nivel2() {
 			float y = i * (blockHeight + 6.f) + 5.f;
 			
 			
-			bool isSpecial = (rand () % 110 == 0); /// Probabilidad de 1 / 110 de ser especial el bloque nivel (Saltea 1)
-			bool isSpecial_puntos = (rand()% 60 == 0); /// Probabilidad de 1 / 20 de ser especial  el bloque puntos
-			bool isSpecial_nivel_d = (rand () % 150 == 0); /// Probabilidad 1 / 40 de ser especial el bloque Nivel (saltea 2)
-			bool isSpecial_menospts = (rand () % 50 == 0); /// Probabilidad 1 / 10 de ser especial el bloque puntos (resta 100 y 1 vida)
+			bool isSpecial = (rand () % 70 == 0); /// Probabilidad de 1 / 70 de ser especial el bloque nivel (Saltea 1)
+			bool isSpecial_puntos = (rand()% 40 == 0); /// Probabilidad de 1 / 40 de ser especial  el bloque puntos
+			bool isSpecial_nivel_d = (rand () % 110 == 0); /// Probabilidad 1 / 110 de ser especial el bloque Nivel (saltea 2)
+			bool isSpecial_menospts = (rand () % 40 == 0); /// Probabilidad 1 / 40 de ser especial el bloque puntos (resta 100 y 1 vida)
 			
 			if(isSpecial){
 				m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color(255,0,128),false,true);

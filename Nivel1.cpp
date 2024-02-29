@@ -18,7 +18,7 @@ Nivel1::Nivel1() {
 			float x = (j + 0.5f * i) * (blockWidth + 6.f) + 5.f;   /// Cada fila se desplaza un poco hacia la derecha
 			float y = i * (blockHeight + 6.f) + 5.f;
 			
-			bool isSpecial = (rand () % 100 == 0); /// Probabilidad de 1 / 100 de ser especial el bloque nivel (Saltea 1)
+			bool isSpecial = (rand () % 60 == 0); /// Probabilidad de 1 / 60 de ser especial el bloque nivel (Saltea 1)
 			bool isSpecial_puntos = (rand()% 30 == 0); /// Probabilidad de 1 / 30 de ser especial  el bloque puntos
 			bool isSpecial_nivel_d = (rand () % 110 == 0); /// Probabilidad 1 / 110 de ser especial el bloque Nivel (saltea 2)
 			

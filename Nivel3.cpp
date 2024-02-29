@@ -26,7 +26,7 @@ Nivel3::Nivel3() {
 			if (distance % 2 == 0) {
 				float x = j * (blockWidth + 6.f) + 50.f;
 				float y = i * (blockHeight + 6.f) + 5.f;
-				bool isSpecial_menospts = (rand () % 20 == 0); /// Probabilidad 1 / 30 de ser especial el bloque puntos (resta 100 y 1 vida)
+				bool isSpecial_menospts = (rand () % 50 == 0); /// Probabilidad 1 / 50 de ser especial el bloque puntos (resta 100 y 1 vida)
 				if(isSpecial_menospts){
 					m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color::Blue,false,false,false,true);
 					contador_bloques_special++;

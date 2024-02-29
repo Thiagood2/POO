@@ -27,7 +27,7 @@ Nivel5::Nivel5() {
 			float height = (rand() % maxHeight) + minHeight; /// Altura aleatoria entre minHeight y maxHeight
 			float Width = (rand() % maxWidth) + minWidth; /// Anchura aleatoria entre minWidtht y maxWidth
 			
-			bool isSpecial_puntos = (rand()% 50 == 0); /// Probabilidad de 1 / 50 de ser especial  el bloque puntos
+			bool isSpecial_puntos = (rand()% 30 == 0); /// Probabilidad de 1 / 30 de ser especial  el bloque puntos
 			bool isSpecial_menospts = (rand () % 40 == 0); /// Probabilidad 1 / 40 de ser especial el bloque puntos (resta 100 y 1 vida)
 			
 			
