@@ -51,7 +51,7 @@ Menu::Menu() {
 
 void Menu::Update(Game &g){	
 	
-	if((option[selectItem].getString()== option[0].getString()) and Keyboard::isKeyPressed(Keyboard::Return)){
+	if((option[selectItem].getString()== option[0].getString()) and Keyboard::isKeyPressed(Keyboard::Return) and m_nombre != " " ){
 		g.SetScene(new Nivel1());
 	}
 	
@@ -100,7 +100,7 @@ void Menu::ProcesarEventos(Game &g, Event &ev){
 	}
 	
 	if((option[selectItem].getString()== option[2].getString()) and ev.type== Event::KeyPressed and ev.key.code == Keyboard::Return){
-		g.SetScene(new Perfil());
+		g.SetScene(new HighScores());
 	}
 
 	if((option[selectItem].getString()== option[3].getString()) and ev.type== Event::KeyPressed and ev.key.code == Keyboard::Return){

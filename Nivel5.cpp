@@ -4,7 +4,7 @@
 #include "GameOver.h"
 #include "Nivel6.h"
 Nivel5::Nivel5() {
-	m_ball.IncrementarVelocidad(++incremento_velocidad);
+	m_ball.IncrementarVelocidad(incremento_velocidad++);
 	m_ball.setBallMoving(false);
 	
 	m_stats.IncrementarNivel();
@@ -109,6 +109,7 @@ void Nivel5::Update(Game &g){
 	
 	if(m_stats.VerVidas() == 0){ /// Si se llega a las vidas == 0, entonces se cambia a Game Over
 		m_stats.GuardarScore(m_stats.MostrarPuntajeTotal());
+		m_stats.ResetStats();
 		g.SetScene(new GameOver());
 	}
 	

@@ -10,7 +10,7 @@ using namespace std;
 
 Nivel3::Nivel3() {
 	
-	m_ball.IncrementarVelocidad(++incremento_velocidad);
+	m_ball.IncrementarVelocidad(incremento_velocidad++);
 	
 	m_ball.setBallMoving(false);
 	
@@ -99,6 +99,7 @@ void Nivel3::Update(Game &g){
 	
 	if(m_stats.VerVidas() == 0){
 		m_stats.GuardarScore(m_stats.MostrarPuntajeTotal());
+		m_stats.ResetStats();
 		g.SetScene(new GameOver());
 	}
 	

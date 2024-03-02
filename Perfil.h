@@ -6,6 +6,8 @@
 #include "InputText.h"
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
+#include <string>
+using namespace std;
 
 class Perfil : public Scene {
 public:
@@ -14,11 +16,14 @@ public:
 	void Update (Game & g);
 	void ProcesarEventos (Game & g, Event & ev);
 private:
-	Text m_text; Font m_font; string m_nombre;
+	Text m_text; Font m_font;
 	InputText m_input_nombre;
+	
 	Sprite s_logo;
 	Texture t_logo;
 };
+
+extern string m_nombre;
 
 #endif
 

@@ -49,7 +49,7 @@ HighScores::HighScores() {
 		draw_scores[i].setFont(m_font);
 		draw_scores[i].setCharacterSize(24);
 		draw_scores[i].setPosition(300,var_y);
-		draw_scores[i].setString( Scores[i].m_name + " " + to_string(Scores[i].m_puntos));
+		draw_scores[i].setString(to_string(i+1)+ " " + Scores[i].m_name + " " + to_string(Scores[i].m_puntos));
 		var_y +=70;
 	}
 	

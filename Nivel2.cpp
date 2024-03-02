@@ -8,9 +8,8 @@
 
 Nivel2::Nivel2() {
 	
-	m_ball.IncrementarVelocidad(2.f);
+	m_ball.IncrementarVelocidad(incremento_velocidad++);
 	m_ball.setBallMoving(false);
-	
 	m_stats.IncrementarNivel();
 	
 	
@@ -138,6 +137,7 @@ void Nivel2::Update(Game &g){
 	
 	if(m_stats.VerVidas() == 0){
 		m_stats.GuardarScore(m_stats.MostrarPuntajeTotal());
+		m_stats.ResetStats();
 		g.SetScene(new GameOver());
 	}
 	

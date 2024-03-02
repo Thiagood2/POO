@@ -1,5 +1,7 @@
 #include "Perfil.h"
 #include "Menu.h"
+#include <iostream>
+using namespace std;
 
 Perfil::Perfil() {
 	t_logo.loadFromFile("logotipo.png");
@@ -32,13 +34,18 @@ void Perfil::Draw (RenderWindow & window) {
 
 void Perfil::Update (Game & g) {
 	m_input_nombre.update();
+	cout<<m_nombre;
 }
 
 void Perfil::ProcesarEventos (Game & g, Event & ev) {
 	if(ev.type== Event::KeyPressed and ev.key.code == Keyboard::Return){
+		m_nombre = m_input_nombre.getString(); /// Obtenemos el nombre del jugador
 		g.SetScene(new Menu());
 	}else{
 		m_input_nombre.processEvent(ev);
 	}
 }
+
+string m_nombre = " ";
+
 

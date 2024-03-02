@@ -11,6 +11,7 @@
 
 class Nivel : public Scene {
 public:
+	int incremento_velocidad = 0;
 	Nivel();
 	virtual void Update(Game &g) = 0;
 	virtual void Draw(RenderWindow &window) = 0;
@@ -30,7 +31,7 @@ protected:
 	int contador_bloques_normales = 0;
 	int contador_bloques_special = 0;
 	
-	int bloques_totales = 0; int incremento_velocidad = 0;
+	int bloques_totales = 0; 
 	
 	Ball m_ball; Player m_player;
 	

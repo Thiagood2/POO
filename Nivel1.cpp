@@ -6,11 +6,12 @@
 #include <cmath>
 #include "Nivel3.h"
 #include "GameWon.h"
+#include "Nivel7.h"
 using namespace std;
 
 Nivel1::Nivel1() {
 	m_ball.setBallMoving(false);
-	m_ball.IncrementarVelocidad(++incremento_velocidad);
+	m_ball.IncrementarVelocidad(incremento_velocidad++);
 	
 	/// Piramide invertida
 	for (int i = 0; i < rowCount; ++i) {
@@ -71,7 +72,7 @@ void Nivel1::Update(Game &g){
 			if (it->isSpecialNivel()) {         /// Bloque especial de Nivel
 				
 				bl_pl.play();		 /// Musica de choque de pelota-bloque (ladrillo)
-				g.SetScene(new GameWon());
+				g.SetScene(new Nivel7());
 				m_stats.aumentarpuntaje(100);
 				m_ball.Rebotar();
 				it = m_blocks.erase(it); /// Eliminar bloque especial
@@ -111,7 +112,7 @@ void Nivel1::Update(Game &g){
 	
 	
 	if(m_blocks.empty() or contador_bloques_normales ==  (bloques_totales - contador_bloques_special)){ /// EL nivel termina cuando no hay bloques, o cuando se rompen todos los bloques normales
-		g.SetScene(new GameWon());
+		g.SetScene(new Nivel2());
 	}
 	
 	
@@ -121,6 +122,7 @@ void Nivel1::Update(Game &g){
 	
 	if(m_stats.VerVidas() == 0){ /// Si no hay vidas, entonces se va a la scena gameover y se guarda el puntaje en block de notas
 		m_stats.GuardarScore(m_stats.obtenerpuntaje());
+		m_stats.ResetStats();
 		g.SetScene(new GameOver());
 	}
 	

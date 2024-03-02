@@ -6,7 +6,7 @@
 #include "Nivel1.h"
 
 Nivel7::Nivel7() {
-	m_ball.IncrementarVelocidad(++incremento_velocidad);
+	m_ball.IncrementarVelocidad(incremento_velocidad++);
 	m_ball.setBallMoving(false);
 	
 	m_stats.IncrementarNivel();
@@ -16,17 +16,18 @@ Nivel7::Nivel7() {
 	
 	for (int i = 0; i < rowCount-2; ++i) { /// Ladrillos cambia colores
 		if (i%2!=0){
-			for (int j = 0; j < columnCount; ++j) {
-				Color blockColor = colors[(i + j) % 6];
-				float x = j * ((blockWidth-54) + 60.f) + 30.f;
-				float y = i * ((blockHeight+54) + 10.f)+ 5.f;
-				m_blocks.emplace_back(x, y, blockWidth - 54, blockHeight + 54, blockColor);
+			for (int j = 0; j < columnCount+4; ++j) {
+				i--;
+				float x = j * ((blockWidth-54) + 34.f) + 40.f;
+				float y = i * (blockHeight + 36) + 34.f;
+				m_blocks.emplace_back(x, y, blockWidth - 54, blockHeight + 54, Color::White);
+				i++;
 			}
 		}else{
-			for (int j = 0; j < columnCount-5; ++j) {
+			for (int j = 0; j < columnCount-3; ++j) {
 				Color blockColor = colors[(i + j) % 6];
-				float x = j * ((blockWidth-54) + 140.f) + 43.f;
-				float y = i * ((blockHeight+54) + 13.f)+ 25.f;
+				float x = j * ((blockWidth-54) + 88.f) + 40.f;
+				float y = i * (blockHeight+36) +4.f;
 				m_blocks.emplace_back(x, y, blockWidth , blockHeight , blockColor);
 			}
 		}
@@ -71,6 +72,7 @@ void Nivel7::Update (Game &g) {
 	
 	if(m_stats.VerVidas() == 0){
 		m_stats.GuardarScore(m_stats.MostrarPuntajeTotal());
+		m_stats.ResetStats();
 		g.SetScene(new GameOver());
 	}
 	

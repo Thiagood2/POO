@@ -5,7 +5,7 @@
 #include "Nivel7.h"
 
 Nivel6::Nivel6() {
-	m_ball.IncrementarVelocidad(++incremento_velocidad);
+	m_ball.IncrementarVelocidad(incremento_velocidad++);
 	m_ball.setBallMoving(false);
 	
 	m_stats.IncrementarNivel();
@@ -92,6 +92,7 @@ void Nivel6::Update(Game &g){
 	
 	if(m_stats.VerVidas() == 0){
 		m_stats.GuardarScore(m_stats.MostrarPuntajeTotal());
+		m_stats.ResetStats();
 		g.SetScene(new GameOver());
 	}
 	
