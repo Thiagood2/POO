@@ -34,7 +34,6 @@ void Perfil::Draw (RenderWindow & window) {
 
 void Perfil::Update (Game & g) {
 	m_input_nombre.update();
-	cout<<m_nombre;
 }
 
 void Perfil::ProcesarEventos (Game & g, Event & ev) {

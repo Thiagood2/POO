@@ -26,11 +26,10 @@ public:
 	void IncrementarVidas ();
 	void CargarStats(int vidas, int puntaje, int nivel);
 	void GuardarScore(int puntos);
-	
 private:
 	
 	int m_nivel = 1, PuntajeTotal = 0,  m_vidas = 3;
-	Font m_font; bool is_draw;
+	Font m_font; bool is_draw; int puntaje_anterior = 0;
 	
 	Text score_text; Text txt_vidas;
 	Text nivel_game;

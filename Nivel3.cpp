@@ -6,6 +6,7 @@
 #include "GameOver.h"
 #include "Nivel1.h"
 #include "Nivel4.h"
+#include <iostream>
 using namespace std;
 
 Nivel3::Nivel3() {
@@ -50,6 +51,7 @@ void Nivel3::Update(Game &g){
 	if(Keyboard::isKeyPressed(Keyboard::Escape)){
 		g.SetScene(new Menu());
 		m_ball.setBallMoving(false);
+		incremento_velocidad = 0;
 		m_stats.ResetStats();
 	}
 	
@@ -88,6 +90,7 @@ void Nivel3::Update(Game &g){
 		}
 	}
 	
+	cout<<incremento_velocidad<<endl;
 	
 	if(m_blocks.empty() or contador_bloques_normales == (bloques_totales - contador_bloques_special)) {
 		g.SetScene(new Nivel4());
@@ -100,6 +103,7 @@ void Nivel3::Update(Game &g){
 	if(m_stats.VerVidas() == 0){
 		m_stats.GuardarScore(m_stats.MostrarPuntajeTotal());
 		m_stats.ResetStats();
+		incremento_velocidad = 0;
 		g.SetScene(new GameOver());
 	}
 	

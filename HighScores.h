@@ -19,6 +19,7 @@ public:
 	void Update(Game &g)override;
 	void Draw(RenderWindow &window)override;
 	void ProcesarEventos(Game &g, Event &ev)override;
+	void CargarScores();
 private:
 	vector<Text>draw_scores; Font m_font;
 	Text volver_menu;

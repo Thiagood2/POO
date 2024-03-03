@@ -1,5 +1,5 @@
 #include "Nivel7.h"
-#include "GameWon.h"
+
 #include "Menu.h"
 #include "GameOver.h"
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -37,6 +37,7 @@ Nivel7::Nivel7() {
 void Nivel7::Update (Game &g) {
 	if(Keyboard::isKeyPressed(Keyboard::Escape)){
 		g.SetScene(new Menu());
+		incremento_velocidad = 0;
 		m_stats.ResetStats();
 	}
 	
@@ -73,6 +74,7 @@ void Nivel7::Update (Game &g) {
 	if(m_stats.VerVidas() == 0){
 		m_stats.GuardarScore(m_stats.MostrarPuntajeTotal());
 		m_stats.ResetStats();
+		incremento_velocidad = 0;
 		g.SetScene(new GameOver());
 	}
 	

@@ -12,5 +12,8 @@ Nivel::Nivel() {
 	musica_principal.openFromFile("musica.ogg"); /// Musica principal del juego
 	musica_principal.play();
 	musica_principal.setLoop(true);
+	
 }
+
+int incremento_velocidad = 0;
 

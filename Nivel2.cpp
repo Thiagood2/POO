@@ -5,10 +5,12 @@
 #include "GameOver.h"
 #include "Nivel1.h"
 #include "Nivel4.h"
+#include <iostream>
+using namespace std;
 
 Nivel2::Nivel2() {
 	
-	m_ball.IncrementarVelocidad(incremento_velocidad++);
+	m_ball.IncrementarVelocidad(++incremento_velocidad);
 	m_ball.setBallMoving(false);
 	m_stats.IncrementarNivel();
 	
@@ -58,6 +60,7 @@ void Nivel2::Update(Game &g){
 	
 	if(Keyboard::isKeyPressed(Keyboard::Escape)){
 		g.SetScene(new Menu());
+		incremento_velocidad = 0;
 		m_stats.ResetStats();
 	}
 	
@@ -127,6 +130,9 @@ void Nivel2::Update(Game &g){
 		}
 	}
 	
+	
+	cout<<incremento_velocidad<<endl;
+	
 	if(m_blocks.empty() or contador_bloques_normales ==  (bloques_totales - contador_bloques_special)){ /// EL nivel termina cuando no hay bloques, o cuando se rompen todos los bloques normales
 		g.SetScene(new Nivel3());
 	}
@@ -138,6 +144,7 @@ void Nivel2::Update(Game &g){
 	if(m_stats.VerVidas() == 0){
 		m_stats.GuardarScore(m_stats.MostrarPuntajeTotal());
 		m_stats.ResetStats();
+		incremento_velocidad = 0;
 		g.SetScene(new GameOver());
 	}
 	

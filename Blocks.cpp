@@ -18,4 +18,6 @@ Blocks::Blocks(float x, float y, float width, float height, Color color, bool is
 	es_especial_pts = is_special_pts;
 }
 
-
+void Blocks::MoverAbajo(int distancia){
+	b_shape.move(0,distancia);
+}

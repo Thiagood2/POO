@@ -9,7 +9,8 @@ public:
 	bool isSpecialNivel() const {return es_especial_nivel;};
 	bool isSpecialNivel_dos() const {return es_especial_nivel_d;};
 	bool isSpecialPts() const {return es_especial_pts;};
-	
+	void MoverAbajo(int distancia);
+	FloatRect getGlobalBounds() const { return b_shape.getGlobalBounds(); }
 	
 private:
 	bool es_especial; 

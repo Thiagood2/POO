@@ -42,6 +42,7 @@ Nivel6::Nivel6() {
 void Nivel6::Update(Game &g){
 	if(Keyboard::isKeyPressed(Keyboard::Escape)){
 		g.SetScene(new Menu());
+		incremento_velocidad = 0;
 		m_stats.ResetStats();
 	}
 	
@@ -94,6 +95,7 @@ void Nivel6::Update(Game &g){
 		m_stats.GuardarScore(m_stats.MostrarPuntajeTotal());
 		m_stats.ResetStats();
 		g.SetScene(new GameOver());
+		incremento_velocidad = 0;
 	}
 	
 	m_stats.actualizarStats();

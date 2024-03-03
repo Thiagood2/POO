@@ -6,6 +6,7 @@
 #include "Nivel1.h"
 #include "Guia.h"
 #include "Perfil.h"
+#include <fstream>
 using namespace std;
 
 Menu::Menu() {
@@ -14,8 +15,6 @@ Menu::Menu() {
 	s_logo.setPosition(190,100);
 	
 	m_font.loadFromFile("fuente_menu.ttf");
-	
-
 	
 	
 	int Var_y = 250;

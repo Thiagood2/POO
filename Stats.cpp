@@ -31,6 +31,7 @@ Stats::Stats() {
 	txt_vidas.setPosition(20.f,300);
 	
 	is_draw = true;
+	
 }
 
 
@@ -110,7 +111,6 @@ void Stats::GuardarScore(int puntos){
 	if(archi.is_open()){
 		archi<<puntos;
 		archi.close();
-		cout<<"Se abrio correctamente"<<endl;
 	}
 	
 }

@@ -51,6 +51,7 @@ Nivel5::Nivel5() {
 void Nivel5::Update(Game &g){
 	if(Keyboard::isKeyPressed(Keyboard::Escape)){ /// Escape para volver al menu
 		g.SetScene(new Menu());
+		incremento_velocidad = 0;
 		m_stats.ResetStats();
 	}
 	
@@ -111,6 +112,7 @@ void Nivel5::Update(Game &g){
 		m_stats.GuardarScore(m_stats.MostrarPuntajeTotal());
 		m_stats.ResetStats();
 		g.SetScene(new GameOver());
+		incremento_velocidad = 0;
 	}
 	
 	m_stats.actualizarStats();

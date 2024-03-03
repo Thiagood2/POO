@@ -6,6 +6,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <algorithm>
+#include "Perfil.h"
 using namespace std;
 
 bool comparing_score(PlayerScore &a, PlayerScore &b){
@@ -21,27 +22,25 @@ HighScores::HighScores() {
 	archi_puntos>>puntos;
 	archi_puntos.close();
 	
-	ifstream archi_scores ("HighScores.txt");
-	string linea;
+	PlayerScore jugador;
+	jugador.m_name = m_nombre;
+	jugador.m_puntos = stoi(puntos);
 	
-	while(getline(archi_scores,linea)){
-		istringstream iss(linea);
-		PlayerScore m_player;
-		if(iss>>m_player.m_name>>m_player.m_puntos){
-			Scores.push_back(m_player);
-		}
-	}
-	archi_scores.close();
+	ofstream archi("Scores.dat",ios::binary|ios::app);
+	archi.write(reinterpret_cast<char*>(&jugador),sizeof(PlayerScore));
+	archi.close();
 	
-	for(int i =0;i<Scores.size();i++){
-		if(Scores[i].m_name == "You"){
-			Scores[i].m_puntos = stoi(puntos);
-		}
+	ifstream archi_leer ("Scores.dat",ios::binary);
+	
+	while (archi_leer.peek() != EOF) { /// Mientras no se llegue al final del archivo
+		PlayerScore temp;
+		/// Leer el struct PlayerScore del archivo binario
+		archi_leer.read(reinterpret_cast<char*>(&temp), sizeof(PlayerScore));
+		Scores.push_back(temp);
 	}
 	
 	sort(Scores.begin(),Scores.end(),comparing_score);
 	draw_scores.resize(Scores.size());
-	
 	
 	int var_y = 50;
 	

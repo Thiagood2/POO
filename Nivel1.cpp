@@ -5,8 +5,8 @@
 #include "GameOver.h"
 #include <cmath>
 #include "Nivel3.h"
-#include "GameWon.h"
 #include "Nivel7.h"
+#include <iostream>
 using namespace std;
 
 Nivel1::Nivel1() {
@@ -52,6 +52,7 @@ void Nivel1::Update(Game &g){
 	if(Keyboard::isKeyPressed(Keyboard::Escape)){
 		g.SetScene(new Menu());
 		m_stats.ResetStats();
+		incremento_velocidad = 0;
 	}
 	
 	if(Keyboard::isKeyPressed(Keyboard::Space)){
@@ -72,7 +73,7 @@ void Nivel1::Update(Game &g){
 			if (it->isSpecialNivel()) {         /// Bloque especial de Nivel
 				
 				bl_pl.play();		 /// Musica de choque de pelota-bloque (ladrillo)
-				g.SetScene(new Nivel7());
+				g.SetScene(new Nivel2());
 				m_stats.aumentarpuntaje(100);
 				m_ball.Rebotar();
 				it = m_blocks.erase(it); /// Eliminar bloque especial
@@ -109,7 +110,7 @@ void Nivel1::Update(Game &g){
 		}
 	}
 	
-	
+	cout<<incremento_velocidad<<endl;
 	
 	if(m_blocks.empty() or contador_bloques_normales ==  (bloques_totales - contador_bloques_special)){ /// EL nivel termina cuando no hay bloques, o cuando se rompen todos los bloques normales
 		g.SetScene(new Nivel2());
@@ -123,8 +124,10 @@ void Nivel1::Update(Game &g){
 	if(m_stats.VerVidas() == 0){ /// Si no hay vidas, entonces se va a la scena gameover y se guarda el puntaje en block de notas
 		m_stats.GuardarScore(m_stats.obtenerpuntaje());
 		m_stats.ResetStats();
+		incremento_velocidad = 0;
 		g.SetScene(new GameOver());
 	}
+	
 	
 	m_stats.actualizarStats();
 	m_ball.Update();

@@ -29,7 +29,7 @@ void Ball::Update(){
 		sonido_b.play();
 		
 	}
-	if(p.y < 0){
+	if(p.y - 8 < 0){
 		m_speed.y = -m_speed.y;
 		sonido_b.play();
 	}
@@ -39,7 +39,7 @@ void Ball::Update(){
 		m_speed.x = 0;
 	}
 	
-	cout<<velocity<<endl;
+
 	
 }
 
