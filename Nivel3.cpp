@@ -13,8 +13,6 @@ Nivel3::Nivel3() {
 	
 	m_ball.IncrementarVelocidad(incremento_velocidad++);
 	
-	m_ball.setBallMoving(false);
-	
 	m_stats.IncrementarNivel();	
 	
 	///Cuadros concentricos
@@ -48,24 +46,31 @@ Nivel3::Nivel3() {
 void Nivel3::Update(Game &g){
 	
 	
-	if(Keyboard::isKeyPressed(Keyboard::Escape)){
-		g.SetScene(new Menu());
-		m_ball.setBallMoving(false);
-		incremento_velocidad = 0;
-		m_stats.ResetStats();
-	}
-	
-	if(Keyboard::isKeyPressed(Keyboard::Space)){
-		m_ball.setBallMoving(true);
-		m_stats.CambiarColores();
-		m_stats.draw_text(false);
-	}
+	this->ManejoInput(g); /// Manejo de  todos los Inputs de el Juego
 	
 	
-	if(m_ball.Colisiona(m_player)){
-		pl_pe.play();
-		m_ball.Rebotar(m_player.DimensionesPlayer());
+	this->ManejoPelota(); /// Manejo de colisiones pelota - paleta y tema limites
+	
+	this->ColisionesPelotaLadrillo(g); /// Manejo de Colisiones pelota - ladrillo y bloques especiales
+	
+	this->ChequeoTransicion(g); /// Manejo de transicion, si se gana, se pasa de nivel
+	
+	this->ManejoGameOver(g); /// Manejo de vidas y escena gameover
+	
+	
+	m_stats.actualizarStats();
+	m_ball.Update();
+	m_player.Update();
+}
+
+void Nivel3::ChequeoTransicion(Game &g){
+	if(m_blocks.empty() or contador_bloques_normales ==  (bloques_totales - contador_bloques_special)){ /// EL nivel termina cuando no hay bloques, o cuando se rompen todos los bloques normales
+		g.SetScene(new Nivel4());
 	}
+}
+
+
+void Nivel3::ColisionesPelotaLadrillo (Game &g){
 	
 	for (auto it = m_blocks.begin(); it != m_blocks.end(); ){
 		if (m_ball.Colisiona(*it)) {
@@ -89,29 +94,6 @@ void Nivel3::Update(Game &g){
 			++it; /// Avanza al siguiente bloque si no hay colisión
 		}
 	}
-	
-	cout<<incremento_velocidad<<endl;
-	
-	if(m_blocks.empty() or contador_bloques_normales == (bloques_totales - contador_bloques_special)) {
-		g.SetScene(new Nivel4());
-	}
-	
-	if(m_ball.falling()){
-		m_stats.DecrementarVida();
-	}
-	
-	if(m_stats.VerVidas() == 0){
-		m_stats.GuardarScore(m_stats.MostrarPuntajeTotal());
-		m_stats.ResetStats();
-		incremento_velocidad = 0;
-		g.SetScene(new GameOver());
-	}
-	
-	
-	m_stats.actualizarStats();
-	m_ball.Update();
-	m_player.Update();
-	
 }
 
 void Nivel3::Draw(RenderWindow &w){

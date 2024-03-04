@@ -8,10 +8,8 @@ public:
 	Nivel2();
 	void Draw(RenderWindow &w) override;
 	void Update(Game &g) override;
-	int VerPuntaje();
-	int speed_ball();
-	int VerNivel();
-	int VerVidas();
+	void ChequeoTransicion(Game &g) override;
+	void ColisionesPelotaLadrillo (Game &g)override;
 private:
 };
 

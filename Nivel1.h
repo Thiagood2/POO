@@ -14,6 +14,8 @@ public:
 	Nivel1();
 	void Draw(RenderWindow &w) override;
 	void Update(Game &g) override;
+	void ChequeoTransicion(Game &g) override;
+	void ColisionesPelotaLadrillo (Game &g)override;
 private:
 	
 };

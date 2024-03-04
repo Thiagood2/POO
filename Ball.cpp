@@ -12,7 +12,7 @@ Ball::Ball(){
 	m_ball.setPosition(400,300);
 	
 	velocity = 6.f;
-	m_speed.y = velocity; is_falling = 0;
+	m_speed.y = velocity; paso_limites = false;
 	m_speed.x = 0;
 	
 	bordes_pelota.loadFromFile("rebote.wav");
@@ -22,7 +22,7 @@ Ball::Ball(){
 void Ball::Update(){
 	Play();
 	auto p = m_ball.getPosition();
-	is_falling = false;
+	paso_limites = false;
 	
 	if(p.x<0 or p.x + 16> 800){
 		m_speed.x = -m_speed.x;
@@ -35,7 +35,7 @@ void Ball::Update(){
 	}
 	if(p.y> 600){
 		m_ball.setPosition(800 / 2.f,600 / 2.f);
-		ball_moving = false; is_falling = true;
+		ball_moving = false; paso_limites = true;
 		m_speed.x = 0;
 	}
 	
@@ -79,6 +79,6 @@ int Ball::ball_speed(){
 	return velocity;
 }
 
-bool Ball::falling(){
-	return is_falling;
+bool Ball::PasoLimites(){
+	return paso_limites;
 }

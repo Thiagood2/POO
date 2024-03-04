@@ -15,13 +15,13 @@ public:
 	void Play();
 	void setBallMoving(bool moving);
 	int ball_speed();
-	bool falling();
+	bool PasoLimites();
 private:
 	Vector2f m_speed;
 	float velocity;
 	
 	float MAX_SPEED_X = 3.0f;
-	bool ball_moving; bool is_falling;
+	bool ball_moving; bool paso_limites;
 	
 	SoundBuffer bordes_pelota; Sound sonido_b;
 	

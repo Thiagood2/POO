@@ -10,7 +10,6 @@
 using namespace std;
 
 Nivel1::Nivel1() {
-	m_ball.setBallMoving(false);
 	m_ball.IncrementarVelocidad(incremento_velocidad++);
 	
 	/// Piramide invertida
@@ -49,24 +48,31 @@ Nivel1::Nivel1() {
 
 void Nivel1::Update(Game &g){
 	
-	if(Keyboard::isKeyPressed(Keyboard::Escape)){
-		g.SetScene(new Menu());
-		m_stats.ResetStats();
-		incremento_velocidad = 0;
+	this->ManejoInput(g); /// Manejo de  todos los Inputs de el Juego
+	
+	
+	this->ManejoPelota(); /// Manejo de colisiones pelota - paleta y tema limites
+	
+	this->ColisionesPelotaLadrillo(g); /// Manejo de Colisiones pelota - ladrillo y bloques especiales
+	
+	this->ChequeoTransicion(g); /// Manejo de transicion, si se gana, se pasa de nivel
+	
+	this->ManejoGameOver(g); /// Manejo de vidas y escena gameover
+	
+	
+	m_stats.actualizarStats();
+	m_ball.Update();
+	m_player.Update();
+	
+}
+
+void Nivel1::ChequeoTransicion(Game &g){
+	if(m_blocks.empty() or contador_bloques_normales ==  (bloques_totales - contador_bloques_special)){ /// EL nivel termina cuando no hay bloques, o cuando se rompen todos los bloques normales
+		g.SetScene(new Nivel2());
 	}
-	
-	if(Keyboard::isKeyPressed(Keyboard::Space)){
-		m_ball.setBallMoving(true);
-		m_stats.CambiarColores();
-		m_stats.draw_text(false);
-	}
-	
-	if(m_ball.Colisiona(m_player)){ /// Colision pelota-paleta
-		pl_pe.play(); /// Musica de colision pelota-paleta
-		m_ball.Rebotar(m_player.DimensionesPlayer()); 
-	}
-	
-	
+}
+
+void Nivel1::ColisionesPelotaLadrillo (Game &g){
 	
 	for (auto it = m_blocks.begin(); it != m_blocks.end(); ){
 		if (m_ball.Colisiona(*it)) {
@@ -109,30 +115,6 @@ void Nivel1::Update(Game &g){
 			++it; /// Avanza al siguiente bloque si no hay colisión
 		}
 	}
-	
-	cout<<incremento_velocidad<<endl;
-	
-	if(m_blocks.empty() or contador_bloques_normales ==  (bloques_totales - contador_bloques_special)){ /// EL nivel termina cuando no hay bloques, o cuando se rompen todos los bloques normales
-		g.SetScene(new Nivel2());
-	}
-	
-	
-	if(m_ball.falling()){  /// Si se cae la pelota, 1 vida menos
-		m_stats.DecrementarVida();
-	}
-	
-	if(m_stats.VerVidas() == 0){ /// Si no hay vidas, entonces se va a la scena gameover y se guarda el puntaje en block de notas
-		m_stats.GuardarScore(m_stats.obtenerpuntaje());
-		m_stats.ResetStats();
-		incremento_velocidad = 0;
-		g.SetScene(new GameOver());
-	}
-	
-	
-	m_stats.actualizarStats();
-	m_ball.Update();
-	m_player.Update();
-	
 }
 
 void Nivel1::Draw(RenderWindow &w){

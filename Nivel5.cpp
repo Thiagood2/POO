@@ -5,7 +5,6 @@
 #include "Nivel6.h"
 Nivel5::Nivel5() {
 	m_ball.IncrementarVelocidad(incremento_velocidad++);
-	m_ball.setBallMoving(false);
 	
 	m_stats.IncrementarNivel();
 	
@@ -49,23 +48,31 @@ Nivel5::Nivel5() {
 }
 
 void Nivel5::Update(Game &g){
-	if(Keyboard::isKeyPressed(Keyboard::Escape)){ /// Escape para volver al menu
-		g.SetScene(new Menu());
-		incremento_velocidad = 0;
-		m_stats.ResetStats();
-	}
+	this->ManejoInput(g); /// Manejo de  todos los Inputs de el Juego
 	
-	if(Keyboard::isKeyPressed(Keyboard::Space)){ /// Space comenzar a jugar
-		m_ball.setBallMoving(true);
-		m_stats.CambiarColores();
-		m_stats.draw_text(false);
-	}
+	this->ManejoPelota(); /// Manejo de colisiones pelota - paleta y tema limites
+	
+	this->ColisionesPelotaLadrillo(g); /// Manejo de Colisiones pelota - ladrillo y bloques especiales
+	
+	this->ChequeoTransicion(g); /// Manejo de transicion, si se gana, se pasa de nivel
+	
+	this->ManejoGameOver(g); /// Manejo de vidas y escena gameover
 	
 	
-	if(m_ball.Colisiona(m_player)){ /// Colisiones de la pelota con la paleta
-		pl_pe.play();
-		m_ball.Rebotar(m_player.DimensionesPlayer());
+	m_stats.actualizarStats();
+	m_ball.Update();
+	m_player.Update();
+	
+}
+
+void Nivel5::ChequeoTransicion(Game &g){
+	if(m_blocks.empty() or contador_bloques_normales ==  (bloques_totales - contador_bloques_special)){ /// EL nivel termina cuando no hay bloques, o cuando se rompen todos los bloques normales
+		g.SetScene(new Nivel6());
 	}
+}
+
+
+void Nivel5::ColisionesPelotaLadrillo (Game &g){
 	
 	for (auto it = m_blocks.begin(); it != m_blocks.end(); ){
 		if (m_ball.Colisiona(*it)) {
@@ -98,29 +105,7 @@ void Nivel5::Update(Game &g){
 			++it; /// Avanza al siguiente bloque si no hay colisión
 		}
 	}
-	
-	if(m_blocks.empty() or contador_bloques_normales ==  (bloques_totales - contador_bloques_special)){ /// EL nivel termina cuando no hay bloques, o cuando se rompen todos los bloques normales
-		g.SetScene(new Nivel6());
-	}
-	
-	if(m_ball.falling()){ /// Si la pelota sobresale de la pantalla Decrementa una vida
-		
-		m_stats.DecrementarVida();
-	}
-	
-	if(m_stats.VerVidas() == 0){ /// Si se llega a las vidas == 0, entonces se cambia a Game Over
-		m_stats.GuardarScore(m_stats.MostrarPuntajeTotal());
-		m_stats.ResetStats();
-		g.SetScene(new GameOver());
-		incremento_velocidad = 0;
-	}
-	
-	m_stats.actualizarStats();
-	m_ball.Update();
-	m_player.Update();
 }
-
-
 
 void Nivel5::Draw(RenderWindow &w){
 	w.clear({20,20,20});

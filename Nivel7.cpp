@@ -7,8 +7,6 @@
 
 Nivel7::Nivel7() {
 	m_ball.IncrementarVelocidad(incremento_velocidad++);
-	m_ball.setBallMoving(false);
-	
 	m_stats.IncrementarNivel();
 	
 	
@@ -35,24 +33,30 @@ Nivel7::Nivel7() {
 }
 
 void Nivel7::Update (Game &g) {
-	if(Keyboard::isKeyPressed(Keyboard::Escape)){
-		g.SetScene(new Menu());
-		incremento_velocidad = 0;
-		m_stats.ResetStats();
+	this->ManejoInput(g); /// Manejo de  todos los Inputs de el Juego
+	
+	this->ManejoPelota(); /// Manejo de colisiones pelota - paleta y tema limites
+	
+	this->ColisionesPelotaLadrillo(g); /// Manejo de Colisiones pelota - ladrillo y bloques especiales
+	
+	this->ChequeoTransicion(g); /// Manejo de transicion, si se gana, se pasa de nivel
+	
+	this->ManejoGameOver(g); /// Manejo de vidas y escena gameover
+	
+	
+	m_stats.actualizarStats();
+	m_ball.Update();
+	m_player.Update();
+	
+}
+
+void Nivel7::ChequeoTransicion(Game &g){
+	if(m_blocks.empty()){
+		g.SetScene(new Nivel1());
 	}
-	
-	if(Keyboard::isKeyPressed(Keyboard::Space)){
-		m_ball.setBallMoving(true);
-		m_stats.CambiarColores();
-		m_stats.draw_text(false);
-	}
-	
-	
-	if(m_ball.Colisiona(m_player)){
-		pl_pe.play();
-		m_ball.Rebotar(m_player.DimensionesPlayer());
-	}
-	
+}
+
+void Nivel7::ColisionesPelotaLadrillo (Game &g){
 	for(auto it = m_blocks.begin();it!=m_blocks.end();it++){
 		if(m_ball.Colisiona(*it)){
 			bl_pl.play();
@@ -62,25 +66,6 @@ void Nivel7::Update (Game &g) {
 			break;
 		}
 	}
-	
-	if(m_blocks.empty()){
-		g.SetScene(new Nivel1());
-	}
-	
-	if(m_ball.falling()){
-		m_stats.DecrementarVida();
-	}
-	
-	if(m_stats.VerVidas() == 0){
-		m_stats.GuardarScore(m_stats.MostrarPuntajeTotal());
-		m_stats.ResetStats();
-		incremento_velocidad = 0;
-		g.SetScene(new GameOver());
-	}
-	
-	m_stats.actualizarStats();
-	m_ball.Update();
-	m_player.Update();
 }
 
 void Nivel7::Draw (RenderWindow &w) {

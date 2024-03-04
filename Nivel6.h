@@ -9,6 +9,8 @@ public:
 	Nivel6();
 	void Update(Game &g) override;
 	void Draw(RenderWindow &w) override;
+	void ChequeoTransicion(Game &g) override;
+	void ColisionesPelotaLadrillo (Game &g)override;
 private:
 };
 

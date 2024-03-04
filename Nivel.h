@@ -14,6 +14,14 @@ public:
 	Nivel();
 	virtual void Update(Game &g) = 0;
 	virtual void Draw(RenderWindow &window) = 0;
+	virtual void ChequeoTransicion(Game &g) = 0;
+	virtual void ColisionesPelotaLadrillo(Game &g) = 0;
+	
+	
+	void ManejoInput(Game &g);
+	void ManejoGameOver(Game &g);
+	void ManejoPelota();
+	
 	virtual ~Nivel (){}; /// PREG A PROFE
 	
 protected:
