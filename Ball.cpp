@@ -6,16 +6,16 @@ using namespace std;
 
 Ball::Ball(){
 	m_ball.setRadius(8.0f);
-	m_ball.setFillColor({255,255,255});
+	m_ball.setFillColor(Color::Red);
 	m_ball.setOutlineThickness(1.0f);
-	m_ball.setOutlineColor(Color::White);
+	m_ball.setOutlineColor(Color::White); /// Establecemos formato de la pelota
 	m_ball.setPosition(400,300);
 	
 	velocity = 6.f;
 	m_speed.y = velocity; paso_limites = false;
 	m_speed.x = 0;
 	
-	bordes_pelota.loadFromFile("rebote.wav");
+	bordes_pelota.loadFromFile("rebote.wav"); /// Sonido del rebote de la pelota con los bordes
 	sonido_b.setBuffer(bordes_pelota);
 }
 
@@ -25,17 +25,17 @@ void Ball::Update(){
 	paso_limites = false;
 	
 	if(p.x<0 or p.x + 16> 800){
-		m_speed.x = -m_speed.x;
+		m_speed.x = -m_speed.x; /// Limites de la pelota
 		sonido_b.play();
 		
 	}
 	if(p.y - 8 < 0){
-		m_speed.y = -m_speed.y;
+		m_speed.y = -m_speed.y; /// Limites de la pelota
 		sonido_b.play();
 	}
 	if(p.y> 600){
 		m_ball.setPosition(800 / 2.f,600 / 2.f);
-		ball_moving = false; paso_limites = true;
+		ball_moving = false; paso_limites = true; /// Si la pelota sobre sale del eje y, que sucede.. 
 		m_speed.x = 0;
 	}
 	
@@ -55,7 +55,7 @@ void Ball::Rebotar(const FloatRect& playerBounds){ /// Este rebotar se utiliza p
 }
 void Ball::Rebotar(){ /// Este rebotar se utiliza para pelota - ladrillo 
 	m_speed.y = -m_speed.y;
-	m_speed.x -= std::rand()%100 / 50.f;
+	m_speed.x -= rand()%100 / 50.f;
 }
 
 void Ball::IncrementarVelocidad(int speed){

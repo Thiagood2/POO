@@ -12,7 +12,7 @@ Game::Game(): m_window(VideoMode(800,600), "Akari Breackout"){
 	
 	ofstream archi("puntos.txt", ios::out);
 	int puntos = 0;
-	if(archi.is_open()){
+	if(archi.is_open()){  /// Se abre el archivo para garantizar que no haya scores duplicados sin nombres
 		archi<<puntos;
 		archi.close();
 	}

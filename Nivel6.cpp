@@ -8,14 +8,15 @@
 Nivel6::Nivel6() {
 	this->ManejoVelocidadPelota();
 	m_player.CambiarDimensiones(40,20); /// Cambia las dimensiones de la paleta
-	
-	/// Cuadricula
+
+	/// Bloques aleatorios
 	for (int i = 0; i < rowCount; ++i) {
 		for (int j = 0; j < columnCount; ++j) {
-			float x = j * (blockWidth + 6.f) + 5.f;
-			float y = i * (blockHeight + 6.f) + 5.f;
-			
-			this->ProbabilidadesNivelesPares(x,y);
+			if (rand() % 100 < 40) {    /// Probabilidad del 40% de que haya un bloque
+				float x = j * (blockWidth + 6.f) + 5.f;
+				float y = i * (blockHeight + 6.f) + 5.f;
+				this->ProbabilidadesNivelesPares(x,y);
+			}
 		}
 	}
 	

@@ -41,7 +41,7 @@ void Perfil::ProcesarEventos (Game & g, Event & ev) {
 		m_nombre = m_input_nombre.getString(); /// Obtenemos el nombre del jugador
 		g.SetScene(new Menu());
 	}else{
-		m_input_nombre.processEvent(ev);
+		m_input_nombre.processEvent(ev); /// Va adquiriendo cada letra que le digitemos
 	}
 }
 

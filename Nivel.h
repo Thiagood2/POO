@@ -27,7 +27,7 @@ public:
 	void ManejoPelota();
 	void ManejoVelocidadPelota();
 	
-	virtual ~Nivel (){}; /// PREG A PROFE
+	virtual ~Nivel (){};
 	
 protected:
 	
@@ -49,7 +49,7 @@ protected:
 	vector<Blocks>m_blocks;
 };
 
-extern int incremento_velocidad;
+extern int incremento_velocidad; /// Variable global para manejar las velocidades, sino se resetea en cada nivel
 
 #endif
 

@@ -17,7 +17,7 @@ Nivel3::Nivel3() {
 	///Cuadros concentricos
 	int centerX = columnCount / 2.5;   /// Se calcula la coordenada x del centro de la matriz de bloques
 	int centerY = rowCount / 2;   /// Se calcula la coordenada y del centro de la matriz de bloques
-	int maxDistance = std::max(centerX, centerY);
+	int maxDistance = max(centerX, centerY);
 	
 	for (int i = 0; i < rowCount; ++i) {
 		for (int j = 0; j < columnCount; ++j) {

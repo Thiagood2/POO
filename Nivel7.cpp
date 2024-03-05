@@ -11,7 +11,7 @@ Nivel7::Nivel7() {
 	this->ManejoVelocidadPelota();
 	
 	for (int i = 0; i < rowCount-5; ++i) { 
-		if (i%2!=0){
+		if (i%2!=0){ /// Si la fila es par se colocan los bloques verticales
 			for (int j = 0; j < columnCount+4; ++j) {
 				i--;
 				float x = j * ((blockWidth-54) + 34.f) + 40.f;
@@ -19,7 +19,7 @@ Nivel7::Nivel7() {
 				i++;
 				this->ProbabilidadesNivelesImpares(x,y,blockWidth-54,blockHeight+54);
 			}
-		}else{
+		}else{ /// Caso contrario, se colocaran horizontales
 			for (int j = 0; j < columnCount-3; ++j) {
 				float x = j * ((blockWidth-54) + 88.f) + 40.f;
 				float y = i * (blockHeight + 36) + 4.f;

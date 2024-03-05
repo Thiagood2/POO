@@ -23,11 +23,11 @@ Nivel::Nivel() {
 void Nivel::ManejoInput(Game &g){
 	if(Keyboard::isKeyPressed(Keyboard::Escape)){
 		m_stats.ResetStats();
-		incremento_velocidad = 0;
+		incremento_velocidad = 0; /// Eventos generales para todos los niveles
 		g.SetScene(new Menu());
 	}
 	
-	if(Keyboard::isKeyPressed(Keyboard::Space)){
+	if(Keyboard::isKeyPressed(Keyboard::Space)){ /// Eventos generales para todos los niveles
 		m_ball.setBallMoving(true);
 		m_stats.CambiarColores();
 		m_stats.draw_text(false);

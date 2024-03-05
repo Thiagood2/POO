@@ -77,7 +77,7 @@ void GameOver::Draw(RenderWindow &w){
 }
 
 void GameOver::ProcesarEventos(Game &g, Event &ev){
-	if (option[selectItem].getString() == option[0].getString() and ev.type== Event::KeyPressed and ev.key.code == Keyboard::Return) {
+	if (option[selectItem].getString() == option[0].getString() and ev.type== Event::KeyPressed and ev.key.code == Keyboard::Return) {  /// Procesador de eventos para ir a menu y/o jugar nuevamente
 		g.SetScene(new Nivel1());
 	}
 	
@@ -90,6 +90,8 @@ void GameOver::ProcesarEventos(Game &g, Event &ev){
 	if(ev.type== Event::KeyPressed and ev.key.code == Keyboard::Up){
 		MoveUp();
 	}
+	
+	
 	if(ev.type== Event::KeyPressed and ev.key.code == Keyboard::Down){
 		MoveDown();
 	}
@@ -99,7 +101,7 @@ void GameOver::ProcesarEventos(Game &g, Event &ev){
 void GameOver::MoveUp(){
 	if(selectItem - 1 >= 0 ){
 		option[selectItem].setFillColor(Color::White);
-		selectItem--;
+		selectItem--;										/// Nos permite pintar los text del vector option cuando usamos las flechitas
 		option[selectItem].setFillColor(Color::Green);
 	}
 }
@@ -108,7 +110,7 @@ void GameOver::MoveUp(){
 void GameOver::MoveDown(){
 	if(selectItem + 1 < Max_Items_Menu ){
 		option[selectItem].setFillColor(Color::White);
-		selectItem++;
+		selectItem++;									/// Nos permite pintar los text del vector option cuando usamos las flechitas
 		option[selectItem].setFillColor(Color::Green);
 	}
 }

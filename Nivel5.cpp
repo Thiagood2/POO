@@ -9,7 +9,7 @@ Nivel5::Nivel5() {
 	m_player.CambiarDimensiones(60,20); /// Cambia las dimensiones de la paleta
 	
 	
-	/// Bloques aleatorios
+	/// Tamanios bloques aleatorios
 	
 	srand(time(nullptr));   /// Inicializa la semilla para generar números aleatorios
 	int minHeight = 3;

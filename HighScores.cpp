@@ -37,7 +37,7 @@ HighScores::HighScores() {
 
 	string puntos;
 	ifstream archi_puntos("puntos.txt", ios::in);
-	if (archi_puntos.is_open() && archi_puntos.peek() == ifstream::traits_type::eof()){
+	if (archi_puntos.is_open() && archi_puntos.peek() == ifstream::traits_type::eof()){ /// Nos preguntamos si el txt esta vacio, si lo esta le damos un valor a puntos
 		puntos = "0";
 	}else{
 		archi_puntos>>puntos;
@@ -45,7 +45,7 @@ HighScores::HighScores() {
 	archi_puntos.close();
 
 	PlayerScore jugador;
-	strcpy(jugador.m_name, m_nombre.c_str());
+	strcpy(jugador.m_name, m_nombre.c_str()); /// Copia el contenido de m_nombre a m_name
 	jugador.m_puntos = stoi(puntos);
 	
 	size_t length = strlen(jugador.m_name);  /// Se obtiene la longitud de la cadena copiada
@@ -55,6 +55,8 @@ HighScores::HighScores() {
 	int indice_a_eliminar;
 	/// Busca los jugadores que necesitan ser reemplazados o eliminados
 	for (size_t i = 0; i < Scores.size(); ++i) {
+		
+		/// Si el jugador ya esta en la lista y supera su mejor puntaje se guarda el indice para eliminar el puntaje viejo
 		if (strcmp(Scores[i].m_name, jugador.m_name) == 0 && comparing_score(jugador, Scores[i])) {
 			indice_a_eliminar = i;
 			cant++;
@@ -68,8 +70,8 @@ HighScores::HighScores() {
 	/// Elimina los jugadores que necesitan ser reemplazados
 	if(cant==1){
 		auto it = Scores.begin() + indice_a_eliminar;
-		Scores.erase(it);
-		Scores.push_back(jugador);   /// Inserta el nuevo jugador
+		Scores.erase(it); /// Se elimina el jugador que tiene menor puntaje
+		Scores.push_back(jugador);   /// Inserta el nuevo jugador con mayor puntaje
 		sort(Scores.begin(), Scores.end(), comparing_score);
 		/// Escribe los puntajes en el archivo
 		ofstream archi_escribir("Scores.dat", ios::binary | ios::trunc);
@@ -82,9 +84,11 @@ HighScores::HighScores() {
 	if(cant==0){
 		auto it = prev(Scores.end());
 		if (comparing_score(jugador,*it)){
+			///Nos posicionamos en la ult posicion valida del vector scores, luego si el puntaje de jugador es mayor q *it le hacemos push_back y ordenamos para q vaya al binario
 			Scores.push_back(jugador);
 			sort(Scores.begin(),Scores.end(),comparing_score);
 			Scores.pop_back();
+			
 			ofstream archi_escribir("Scores.dat",ios::binary|ios::trunc);
 			for(int i=0;i<Scores.size();i++) { 
 				archi_escribir.write(reinterpret_cast<char*>(&Scores[i]),sizeof(PlayerScore));
@@ -96,7 +100,7 @@ HighScores::HighScores() {
 	draw_scores.resize(Scores.size());
 	int var_y = 50;
 	for(int i =0;i<Scores.size();i++){
-		draw_scores[i].setFont(m_font);
+		draw_scores[i].setFont(m_font);				/// Mostramos en pantalla los Scores
 		draw_scores[i].setCharacterSize(24);
 		draw_scores[i].setPosition(250,var_y);
 		draw_scores[i].setString(to_string(i+1)+ " " + Scores[i].m_name + " " + to_string(Scores[i].m_puntos));
@@ -104,7 +108,7 @@ HighScores::HighScores() {
 	}
 	
 	volver_menu.setFont(m_font);
-	volver_menu.setCharacterSize(16);
+	volver_menu.setCharacterSize(16); /// Formato seleccion para volver menu
 	volver_menu.setFillColor(Color::Green);
 	volver_menu.setPosition(540,570);
 	volver_menu.setString("<volver al menu>");

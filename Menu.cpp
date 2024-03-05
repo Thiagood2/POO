@@ -11,14 +11,14 @@ using namespace std;
 
 Menu::Menu() {
 	t_logo.loadFromFile("logotipo.png");
-	s_logo.setTexture(t_logo);
+	s_logo.setTexture(t_logo);  /// Cargamos logo del principio del juego
 	s_logo.setPosition(190,100);
-	
-	m_font.loadFromFile("fuente_menu.ttf");
+		
+	m_font.loadFromFile("fuente_menu.ttf"); /// Fuente principal
 	
 	
 	int Var_y = 250;
-	option.resize(Max_Items_Menu);
+	option.resize(Max_Items_Menu); /// Resizeamos para la cantidad de items que requerimos
 	
 	for(int i=0;i<Max_Items_Menu;i++){
 		option[i].setFont(m_font);
@@ -28,7 +28,7 @@ Menu::Menu() {
 	}
 	
 	option[0].setFillColor(Color::Green);
-	option[1].setFillColor(Color::White);
+	option[1].setFillColor(Color::White);	/// Formato, color, posicion y tamanio de los items MENU
 	option[2].setFillColor(Color::White);
 	
 	option[0].setString("<PLAY>");
@@ -37,7 +37,7 @@ Menu::Menu() {
 	option[3].setString("<GUIA>");
 	option[4].setString("<EXIT>");
 	
-	sonido_inicio.loadFromFile("start.wav");
+	sonido_inicio.loadFromFile("start.wav");	/// Sonido de Menu
 	sonido_i.setBuffer(sonido_inicio);
 	
 	sonido_i.play();
@@ -51,10 +51,10 @@ Menu::Menu() {
 void Menu::Update(Game &g){	
 	
 	if((option[selectItem].getString()== option[0].getString()) and Keyboard::isKeyPressed(Keyboard::Return) and m_nombre != " " ){
-		g.SetScene(new Nivel1());
+		g.SetScene(new Nivel1()); /// Solo se ira a nivel1 si el perfil esta cargado y coincide con el item Play
 	}
 	
-	if((option[selectItem].getString()== option[4].getString()) and Keyboard::isKeyPressed(Keyboard::Return)){
+	if((option[selectItem].getString()== option[4].getString()) and Keyboard::isKeyPressed(Keyboard::Return)){ /// Si coincide el indice de selectItem con el de Exit, cerrara el juego
 		g.CloseGame();
 	}
 	
@@ -94,15 +94,15 @@ void Menu::ProcesarEventos(Game &g, Event &ev){
 		MoveDown();
 	}
 	
-	if((option[selectItem].getString()== option[1].getString()) and ev.type== Event::KeyPressed and ev.key.code == Keyboard::Return){
+	if((option[selectItem].getString()== option[1].getString()) and ev.type== Event::KeyPressed and ev.key.code == Keyboard::Return){ /// Si presionas enter y coincide el indice de SelectItem con el de Perfil iras a Perfil
 		g.SetScene(new Perfil());
 	}
 	
-	if((option[selectItem].getString()== option[2].getString()) and ev.type== Event::KeyPressed and ev.key.code == Keyboard::Return){
+	if((option[selectItem].getString()== option[2].getString()) and ev.type== Event::KeyPressed and ev.key.code == Keyboard::Return){ ///Si presionas enter y coincide el indice de SelectItem con el de Scores iras a Scores
 		g.SetScene(new HighScores());
 	}
 
-	if((option[selectItem].getString()== option[3].getString()) and ev.type== Event::KeyPressed and ev.key.code == Keyboard::Return){
+	if((option[selectItem].getString()== option[3].getString()) and ev.type== Event::KeyPressed and ev.key.code == Keyboard::Return){ /// Si presionas enter y coincide el indice de SelectItem con el de Guia iras a Guia
 		g.SetScene(new Guia());
 	}
 	

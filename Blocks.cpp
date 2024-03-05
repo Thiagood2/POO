@@ -21,5 +21,5 @@ Blocks::Blocks(float x, float y, float width, float height, Color color, bool is
 }
 
 void Blocks::MoverAbajo(int distancia){
-	b_shape.move(0,distancia);
+	b_shape.move(0,distancia); /// Usar en caso de que se pueda aplicar movimiento bloque especial
 }

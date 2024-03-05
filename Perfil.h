@@ -23,7 +23,7 @@ private:
 	Texture t_logo;
 };
 
-extern string m_nombre;
+extern string m_nombre; /// Variable global para manejar m_nombre por todo el programa
 
 #endif
 
