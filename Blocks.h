@@ -10,10 +10,16 @@ public:
 	bool isSpecialNivel_dos() const {return es_especial_nivel_d;};
 	bool isSpecialPts() const {return es_especial_pts;};
 	void MoverAbajo(int distancia);
+
+	
+	void ReiniciarContadorColisiones(){contador_colisiones = 0;};
+	void aumentarContadorColisiones(){contador_colisiones++;}
+	int ObtenerContadorColisiones(){ return contador_colisiones;};
+	
 	FloatRect getGlobalBounds() const { return b_shape.getGlobalBounds(); }
 	
 private:
-	bool es_especial; 
+	bool es_especial;  int contador_colisiones;
 	bool es_especial_nivel;
 	bool es_especial_nivel_d;
 	bool es_especial_pts;

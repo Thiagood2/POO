@@ -11,13 +11,20 @@
 using namespace std;
 
 bool comparing_score(PlayerScore &a, PlayerScore &b){
-	return a.m_puntos>b.m_puntos;
+	if (a.m_puntos != b.m_puntos) {
+		return a.m_puntos > b.m_puntos; /// Compara por puntos si son diferentes
+	} else {
+		/// Si los puntos son iguales, compara por nombre
+		return strcmp(a.m_name, b.m_name) < 0; /// Devuelve true si a.m_name es menor que b.m_name
+	}
 }
 
 
 HighScores::HighScores() {
-	m_font.loadFromFile("fuente_menu.ttf");
 	
+	
+	m_font.loadFromFile("fuente_menu.ttf");
+
 	ifstream archi_leer("Scores.dat",ios::binary);
 	while (archi_leer.peek() != EOF) { /// Mientras no se llegue al final del archivo
 		PlayerScore temp;
@@ -27,7 +34,7 @@ HighScores::HighScores() {
 	}
 	archi_leer.close();
 	sort(Scores.begin(),Scores.end(),comparing_score);
-	
+
 	string puntos;
 	ifstream archi_puntos("puntos.txt", ios::in);
 	if (archi_puntos.is_open() && archi_puntos.peek() == ifstream::traits_type::eof()){
@@ -36,19 +43,54 @@ HighScores::HighScores() {
 		archi_puntos>>puntos;
 	}
 	archi_puntos.close();
-	
+
 	PlayerScore jugador;
 	strcpy(jugador.m_name, m_nombre.c_str());
 	jugador.m_puntos = stoi(puntos);
 	
-	auto it = prev(Scores.end());
-	if (comparing_score(jugador,*it)){
-		Scores.push_back(jugador);
-		sort(Scores.begin(),Scores.end(),comparing_score);
-		ofstream archi_escribir("Scores.dat",ios::binary|ios::app);
-		archi_escribir.write(reinterpret_cast<char*>(&jugador),sizeof(PlayerScore));
-		archi_escribir.close();
-		Scores.pop_back();
+	size_t length = strlen(jugador.m_name);  /// Se obtiene la longitud de la cadena copiada
+	jugador.m_name[length] = '\0';   /// Se agrega el carácter nulo al final del arreglo después de la cadena copiada
+
+	int cant = 0;
+	int indice_a_eliminar;
+	/// Busca los jugadores que necesitan ser reemplazados o eliminados
+	for (size_t i = 0; i < Scores.size(); ++i) {
+		if (strcmp(Scores[i].m_name, jugador.m_name) == 0 && comparing_score(jugador, Scores[i])) {
+			indice_a_eliminar = i;
+			cant++;
+		}else{
+			if (strcmp(Scores[i].m_name, jugador.m_name) == 0 && comparing_score(Scores[i],jugador)) {
+				cant+=2;
+			}
+		}
+	}
+
+	/// Elimina los jugadores que necesitan ser reemplazados
+	if(cant==1){
+		auto it = Scores.begin() + indice_a_eliminar;
+		Scores.erase(it);
+		Scores.push_back(jugador);   /// Inserta el nuevo jugador
+		sort(Scores.begin(), Scores.end(), comparing_score);
+		/// Escribe los puntajes en el archivo
+		ofstream archi_escribir("Scores.dat", ios::binary | ios::trunc);
+		for (size_t i = 0; i < Scores.size(); ++i) {
+			archi_escribir.write(reinterpret_cast<const char*>(&Scores[i]), sizeof(PlayerScore));
+		}
+		archi_escribir.close();  
+	}
+		
+	if(cant==0){
+		auto it = prev(Scores.end());
+		if (comparing_score(jugador,*it)){
+			Scores.push_back(jugador);
+			sort(Scores.begin(),Scores.end(),comparing_score);
+			Scores.pop_back();
+			ofstream archi_escribir("Scores.dat",ios::binary|ios::trunc);
+			for(int i=0;i<Scores.size();i++) { 
+				archi_escribir.write(reinterpret_cast<char*>(&Scores[i]),sizeof(PlayerScore));
+			}
+			archi_escribir.close();
+		}
 	}
 	
 	draw_scores.resize(Scores.size());
@@ -58,7 +100,7 @@ HighScores::HighScores() {
 		draw_scores[i].setCharacterSize(24);
 		draw_scores[i].setPosition(250,var_y);
 		draw_scores[i].setString(to_string(i+1)+ " " + Scores[i].m_name + " " + to_string(Scores[i].m_puntos));
-		var_y +=70;
+		var_y +=105;
 	}
 	
 	volver_menu.setFont(m_font);

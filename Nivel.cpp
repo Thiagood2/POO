@@ -3,6 +3,7 @@
 #include "GameOver.h"
 #include "Player.h"
 #include <fstream>
+#include <iostream>
 using namespace std;
 
 Nivel::Nivel() {
@@ -54,87 +55,141 @@ void Nivel::ManejoPelota(){
 }
 
 void Nivel::ManejoColisionesNivelImpar(Game &g){
-	for (auto it = m_blocks.begin(); it != m_blocks.end(); ){
+	for (auto it = m_blocks.begin(); it != m_blocks.end(); ) {
 		if (m_ball.Colisiona(*it)) {
-			
-			if(it->isSpecialNivel()){
-				ColisionesEspeciales(g,*it);  /// Manejo de bloques especiales (niveles)
-				it = m_blocks.erase(it);
-				continue;
-			}
-			
-			if(it->isSpecialNivel_dos()){
-				ColisionesEspeciales(g,*it); /// Manejo de bloques especiales (niveles)
-				it = m_blocks.erase(it);
-				continue;
-			}
-			
-			/// Bloque especial de puntos
-			if(it->isSpecialBlock()){
+			if (it->isSpecialNivel() or it->isSpecialNivel_dos()) { /// Bloques especiales (niveles)
+				
+				it->aumentarContadorColisiones(); /// Contador de colisiones
 				bl_pl.play();
-				m_stats.aumentarpuntaje(75);
-				m_stats.IncrementarVidas();
-				m_ball.Rebotar();
-				it = m_blocks.erase(it); /// Eliminar bloque especial
-				continue; /// Continuar con el siguiente bloque
-			} 
-			
-			/// Si no es especial el bloque pasa esto..
-			bl_pl.play();
-			contador_bloques_normales++;
-			m_stats.aumentarpuntaje(25);
-			m_ball.Rebotar();
-			it = m_blocks.erase(it); /// Avanza el iterador después de eliminar el bloque no especial
+				
+				if(it->ObtenerContadorColisiones() == 3){ /// Si choca 3 veces, recien se rompe el bloque
+					ColisionesEspeciales(g, *it);  /// Manejo de bloques especiales (niveles)
+					it = m_blocks.erase(it); 
+					continue;
+				
+				}else{
+					m_ball.Rebotar();
+					++it;
+					continue;
+				}
+				
+			} else {
+				/// Bloque especial de puntos
+				if (it->isSpecialBlock()) {
+					
+					it->aumentarContadorColisiones();
+					bl_pl.play();
+					
+					if (it->ObtenerContadorColisiones() == 2) {
+						m_stats.aumentarpuntaje(75);
+						m_stats.IncrementarVidas();
+						m_ball.Rebotar();
+						it = m_blocks.erase(it);
+						continue;
+					} else {
+						m_ball.Rebotar();
+						++it;
+						continue;
+					}
+				} else {
+					 /// Bloques normales
+					bl_pl.play();
+					contador_bloques_normales++;
+					m_stats.aumentarpuntaje(25);
+					m_ball.Rebotar();
+					it = m_blocks.erase(it);
+					continue;
+				}
+			}
 		} else {
-			++it; /// Avanza al siguiente bloque si no hay colisión
+			++it;
+		}
+		
+		/// Reiniciar el contador cuando llegue a 3
+		for (auto &block : m_blocks) {
+			if (block.ObtenerContadorColisiones() == 3) {
+				block.ReiniciarContadorColisiones();
+			}
 		}
 	}
+	
 }
 
 void Nivel::ManejoColisionesNivelPar(Game &g){
-	for (auto it = m_blocks.begin(); it != m_blocks.end(); ){
+	for (auto it = m_blocks.begin(); it != m_blocks.end(); ) {
 		if (m_ball.Colisiona(*it)) {
-			
-			if(it->isSpecialNivel()){
-				ColisionesEspeciales(g,*it);  /// Manejo de bloques especiales (niveles)
-				it = m_blocks.erase(it);
-				continue;
-			}
-			
-			if(it->isSpecialNivel_dos()){
-				ColisionesEspeciales(g,*it); /// Manejo de bloques especiales (niveles)
-				it = m_blocks.erase(it);
-				continue;
-			}
-			
-			/// Bloque especial de puntos
-			if(it->isSpecialBlock()){
+			if (it->isSpecialNivel() or it->isSpecialNivel_dos()) { /// Bloques especiales (niveles)
+				
+				it->aumentarContadorColisiones(); /// Contador de colisiones
 				bl_pl.play();
-				m_stats.aumentarpuntaje(75);
-				m_stats.IncrementarVidas();
-				m_ball.Rebotar();
-				it = m_blocks.erase(it); /// Eliminar bloque especial
-				continue; /// Continuar con el siguiente bloque
-			} 
-			
-			/// Bloque especial de puntos (resta 100)
-			if(it->isSpecialPts()){
-				bl_pl.play();
-				m_stats.restarpuntaje(100);
-				m_ball.Rebotar();
-				m_stats.DecrementarVida();
-				it = m_blocks.erase(it); /// Eliminar bloque especial
-				continue; /// Continuar con el siguiente bloque
-			} 
-			
-			/// Si no es especial el bloque pasa esto..
-			bl_pl.play();
-			contador_bloques_normales++;
-			m_stats.aumentarpuntaje(25);
-			m_ball.Rebotar();
-			it = m_blocks.erase(it); /// Avanza el iterador después de eliminar el bloque no especial
+				
+				if(it->ObtenerContadorColisiones() == 3){ /// Si choca 3 veces, recien se rompe el bloque
+					ColisionesEspeciales(g, *it);  /// Manejo de bloques especiales (niveles)
+					it = m_blocks.erase(it); 
+					continue;
+					
+				}else{
+					m_ball.Rebotar();
+					++it;
+					continue;
+				}
+				
+			} else {
+				/// Bloque especial de puntos
+				if (it->isSpecialBlock()) {
+					
+					it->aumentarContadorColisiones();
+					bl_pl.play();
+					
+					if (it->ObtenerContadorColisiones() == 2) {
+						m_stats.aumentarpuntaje(75);
+						m_stats.IncrementarVidas();  /// Manejo de bloques especial (puntos)
+						m_ball.Rebotar();
+						it = m_blocks.erase(it);
+						continue;
+					} else {
+						m_ball.Rebotar();
+						++it;
+						continue;
+					}
+				} else {
+					if(it->isSpecialPts()){ /// Bloque especial Resta puntos y vida
+						
+						it->aumentarContadorColisiones();
+						bl_pl.play();
+						
+						
+						if(it->ObtenerContadorColisiones()==2){
+							m_stats.DecrementarVida();
+							m_stats.aumentarpuntaje(-100);
+							m_ball.Rebotar();
+							it = m_blocks.erase(it);
+							continue;
+						}else{
+							m_ball.Rebotar();
+							++it;
+							continue;
+						}
+					}else{
+						/// Bloques normales
+						bl_pl.play();
+						contador_bloques_normales++;
+						m_stats.aumentarpuntaje(25);
+						m_ball.Rebotar();
+						it = m_blocks.erase(it);
+						continue;
+					}
+				}
+			}
 		} else {
-			++it; /// Avanza al siguiente bloque si no hay colisión
+			++it;
+		}
+		
+		/// Reiniciar el contador cuando llegue a 3
+		for (auto &block : m_blocks) {
+			if (block.ObtenerContadorColisiones() == 3) {
+				block.ReiniciarContadorColisiones();
+			}
 		}
 	}
 }
