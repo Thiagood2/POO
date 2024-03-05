@@ -6,7 +6,7 @@
 using namespace std;
 
 struct PlayerScore{
-	string m_name;
+	char m_name[15];
 	int m_puntos;
 };
 

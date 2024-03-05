@@ -3,10 +3,10 @@
 #include "Menu.h"
 #include "GameOver.h"
 #include "Nivel7.h"
+#include "Nivel1.h"
 
 Nivel6::Nivel6() {
-	m_ball.IncrementarVelocidad(incremento_velocidad++);
-	m_stats.IncrementarNivel();
+	this->ManejoVelocidadPelota();
 	m_player.CambiarDimensiones(40,20); /// Cambia las dimensiones de la paleta
 	
 	/// Cuadricula
@@ -15,21 +15,7 @@ Nivel6::Nivel6() {
 			float x = j * (blockWidth + 6.f) + 5.f;
 			float y = i * (blockHeight + 6.f) + 5.f;
 			
-			bool isSpecial_menospts = (rand () % 40 == 0); /// Probabilidad 1 / 40 de ser especial el bloque puntos (resta 100 y 1 vida)
-			bool isSpecial_puntos = (rand()%40 == 0); /// Probabilidad 1 / 40 de ser especial el bloque puntos
-			
-			
-			if(isSpecial_menospts){
-				m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color::Blue,false,false,false,true);
-				contador_bloques_special++;
-			}else{
-				if(isSpecial_puntos){
-					m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color::Yellow,true);
-					contador_bloques_special++;
-				}else{
-					m_blocks.emplace_back(x,y,blockWidth,blockHeight,Color::Black);
-				}
-			}
+			this->ProbabilidadesNivelesPares(x,y);
 		}
 	}
 	
@@ -42,7 +28,7 @@ void Nivel6::Update(Game &g){
 	
 	this->ManejoPelota(); /// Manejo de colisiones pelota - paleta y tema limites
 	
-	this->ColisionesPelotaLadrillo(g); /// Manejo de Colisiones pelota - ladrillo y bloques especiales
+	this->ManejoColisionesNivelPar(g); /// Manejo de Colisiones pelota - ladrillo y bloques especiales
 	
 	this->ChequeoTransicion(g); /// Manejo de transicion, si se gana, se pasa de nivel
 	
@@ -61,33 +47,26 @@ void Nivel6::ChequeoTransicion(Game &g){
 	}
 }
 
-void Nivel6::ColisionesPelotaLadrillo (Game &g){
-	
-	for (auto it = m_blocks.begin(); it != m_blocks.end(); ){
-		if (m_ball.Colisiona(*it)) {
-			
-			/// Bloque especial de puntos (resta 100 y 1 vida)
-			if(it->isSpecialPts()){
-				bl_pl.play();
-				m_stats.restarpuntaje(100);
-				m_ball.Rebotar();
-				m_stats.DecrementarVida();
-				it = m_blocks.erase(it); /// Eliminar bloque especial
-				continue; /// Continuar con el siguiente bloque
-			} 
-			
-			/// Si no es especial el bloque pasa esto..
-			
-			bl_pl.play();
-			contador_bloques_normales++;
-			m_stats.aumentarpuntaje(25);
-			m_ball.Rebotar();
-			it = m_blocks.erase(it); /// Avanza el iterador después de eliminar el bloque no especial
-		} else {
-			++it; /// Avanza al siguiente bloque si no hay colisión
-		}
+void Nivel6::ColisionesEspeciales(Game &g, Blocks m_bloque){
+	if (m_bloque.isSpecialNivel()) {         /// Bloque especial de Nivel (Saltea 1)
+		bl_pl.play();		 /// Musica de choque de pelota-bloque (ladrillo)
+		m_stats.aumentarpuntaje(100);
+		m_ball.Rebotar();
+		m_stats.IncrementarNivel();
+		g.SetScene(new Nivel7());
 	}
+	
+	/// Bloque especial Nivel (Saltea 2)
+	if(m_bloque.isSpecialNivel_dos()){
+		bl_pl.play();				/// Musica de choque de pelota-bloque (ladrillo)
+		m_stats.aumentarpuntaje(200);
+		m_ball.Rebotar();
+		m_stats.IncrementarDobleNivel();
+		g.SetScene(new Nivel1());
+	} 
 }
+
+
 
 void Nivel6::Draw(RenderWindow &w){
 	w.clear({20,20,20});

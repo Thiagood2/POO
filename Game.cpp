@@ -4,9 +4,18 @@
 #include "Scene.h"
 #include <SFML/Audio/Listener.hpp>
 #include "Nivel.h"
+#include <fstream>
+using namespace std;
 Game::Game(): m_window(VideoMode(800,600), "Akari Breackout"){
 	m_window.setFramerateLimit(60);
 	m_scene = new Menu();
+	
+	ofstream archi("puntos.txt", ios::out);
+	int puntos = 0;
+	if(archi.is_open()){
+		archi<<puntos;
+		archi.close();
+	}
 }
 
 void Game::Run (){

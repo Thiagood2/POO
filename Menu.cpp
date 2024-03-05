@@ -54,7 +54,7 @@ void Menu::Update(Game &g){
 		g.SetScene(new Nivel1());
 	}
 	
-	if((option[selectItem].getString()== option[3].getString()) and Keyboard::isKeyPressed(Keyboard::Return)){
+	if((option[selectItem].getString()== option[4].getString()) and Keyboard::isKeyPressed(Keyboard::Return)){
 		g.CloseGame();
 	}
 	

@@ -8,7 +8,7 @@ public:
 	void Update (Game &g)override;
 	void Draw (RenderWindow & window)override;
 	void ChequeoTransicion(Game &g) override;
-	void ColisionesPelotaLadrillo (Game &g)override;
+	void ColisionesEspeciales(Game &g, Blocks m_bloque) override;
 private:
 };
 

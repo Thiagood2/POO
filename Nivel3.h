@@ -13,7 +13,7 @@ public:
 	void Draw(RenderWindow &w) override;
 	void Update(Game &g) override;
 	void ChequeoTransicion(Game &g) override;
-	void ColisionesPelotaLadrillo (Game &g)override;
+	void ColisionesEspeciales(Game &g, Blocks m_bloque) override;
 	
 private:
 };

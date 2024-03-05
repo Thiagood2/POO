@@ -17,6 +17,8 @@ public:
 	int ball_speed();
 	bool PasoLimites();
 private:
+	
+	
 	Vector2f m_speed;
 	float velocity;
 	

@@ -24,6 +24,7 @@ public:
 	bool draw_text(bool dr);
 	int VerVidas();
 	void IncrementarVidas ();
+	void IncrementarDobleNivel(){m_nivel+=2;}
 	void CargarStats(int vidas, int puntaje, int nivel);
 	void GuardarScore(int puntos);
 private:

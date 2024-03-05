@@ -15,12 +15,17 @@ public:
 	virtual void Update(Game &g) = 0;
 	virtual void Draw(RenderWindow &window) = 0;
 	virtual void ChequeoTransicion(Game &g) = 0;
-	virtual void ColisionesPelotaLadrillo(Game &g) = 0;
+	virtual void ColisionesEspeciales(Game &g, Blocks m_bloque) = 0;
 	
 	
+	void ManejoColisionesNivelImpar(Game &g);
+	void ManejoColisionesNivelPar(Game &g);
 	void ManejoInput(Game &g);
 	void ManejoGameOver(Game &g);
+	void ProbabilidadesNivelesImpares(float &x, float &y, float width = 0, float height = 0);
+	void ProbabilidadesNivelesPares(float &x,float &y);
 	void ManejoPelota();
+	void ManejoVelocidadPelota();
 	
 	virtual ~Nivel (){}; /// PREG A PROFE
 	

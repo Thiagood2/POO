@@ -4,29 +4,26 @@
 #include "GameOver.h"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "Nivel1.h"
+#include "Nivel2.h"
 
 Nivel7::Nivel7() {
-	m_ball.IncrementarVelocidad(incremento_velocidad++);
-	m_stats.IncrementarNivel();
 	
+	this->ManejoVelocidadPelota();
 	
-	Color colors[] = {Color::Red, Color::Green, Color(158,71,112), Color(172,153,105), Color::Magenta, Color::Cyan}; /// Vector de colores
-	
-	for (int i = 0; i < rowCount-2; ++i) { /// Ladrillos cambia colores
+	for (int i = 0; i < rowCount-5; ++i) { 
 		if (i%2!=0){
 			for (int j = 0; j < columnCount+4; ++j) {
 				i--;
 				float x = j * ((blockWidth-54) + 34.f) + 40.f;
 				float y = i * (blockHeight + 36) + 34.f;
-				m_blocks.emplace_back(x, y, blockWidth - 54, blockHeight + 54, Color::White);
 				i++;
+				this->ProbabilidadesNivelesImpares(x,y,blockWidth-54,blockHeight+54);
 			}
 		}else{
 			for (int j = 0; j < columnCount-3; ++j) {
-				Color blockColor = colors[(i + j) % 6];
 				float x = j * ((blockWidth-54) + 88.f) + 40.f;
-				float y = i * (blockHeight+36) +4.f;
-				m_blocks.emplace_back(x, y, blockWidth , blockHeight , blockColor);
+				float y = i * (blockHeight + 36) + 4.f;
+				this->ProbabilidadesNivelesImpares(x,y);
 			}
 		}
 	}
@@ -37,7 +34,7 @@ void Nivel7::Update (Game &g) {
 	
 	this->ManejoPelota(); /// Manejo de colisiones pelota - paleta y tema limites
 	
-	this->ColisionesPelotaLadrillo(g); /// Manejo de Colisiones pelota - ladrillo y bloques especiales
+	this->ManejoColisionesNivelImpar(g); /// Manejo de Colisiones pelota - ladrillo y bloques especiales
 	
 	this->ChequeoTransicion(g); /// Manejo de transicion, si se gana, se pasa de nivel
 	
@@ -56,17 +53,26 @@ void Nivel7::ChequeoTransicion(Game &g){
 	}
 }
 
-void Nivel7::ColisionesPelotaLadrillo (Game &g){
-	for(auto it = m_blocks.begin();it!=m_blocks.end();it++){
-		if(m_ball.Colisiona(*it)){
-			bl_pl.play();
-			m_stats.aumentarpuntaje(25);
-			m_blocks.erase(it);
-			m_ball.Rebotar();
-			break;
-		}
+void Nivel7::ColisionesEspeciales(Game &g, Blocks m_bloque){
+	if (m_bloque.isSpecialNivel()) {         /// Bloque especial de Nivel (Saltea 1)
+		bl_pl.play();		 /// Musica de choque de pelota-bloque (ladrillo)
+		m_stats.aumentarpuntaje(100);
+		m_ball.Rebotar();
+		m_stats.IncrementarNivel();
+		g.SetScene(new Nivel1());
 	}
+	
+	/// Bloque especial Nivel (Saltea 2)
+	if(m_bloque.isSpecialNivel_dos()){
+		bl_pl.play();				/// Musica de choque de pelota-bloque (ladrillo)
+		m_stats.aumentarpuntaje(200);
+		m_ball.Rebotar();
+		m_stats.IncrementarDobleNivel();
+		g.SetScene(new Nivel2());
+	} 
 }
+
+
 
 void Nivel7::Draw (RenderWindow &w) {
 	w.clear({20,20,20});
